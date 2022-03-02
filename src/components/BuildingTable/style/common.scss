@@ -1,0 +1,12 @@
+.bt-checkbox {
+  display: inline-block;
+  cursor: pointer;
+
+  .bt-checkbox__input {
+    margin-right: 2px;
+  }
+  .bt-checkbox__text {
+    font-size: 14px;
+    vertical-align: 2px;
+  }
+}

@@ -1,0 +1,12 @@
+@mixin primary-cell {
+  padding: 2px;
+  background-color: $primary-color;
+  border-radius: 4px;
+  background-clip: content-box;
+}
+
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

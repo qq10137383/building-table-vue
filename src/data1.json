@@ -1,0 +1,276 @@
+{
+    "success": true,
+    "msg": "",
+    "data": {
+        "buildId": "4",
+        "buildName": "慧园小区(一、二期)(39栋)",
+        "buildAddress": "秦皇岛市海港区和平大街240号",
+        "useMode": "multiple",
+        "legends":[
+            {"name": "初始状态", "value": "255,255,255"},
+            {"name": "不可售", "value": "165,165,165"},
+            {"name": "转移登记", "value": "153,56,8"}
+        ],
+        "logicBuilds": [
+            {
+                "logicBuildId": "1",
+                "logicBuildName": "住宅",
+                "tableData": [
+                    {"name":"房号","prop":"houseNo"},
+                    {"name":"单元","prop":"houseId"},
+                    {"name":"面积","prop":"houseName"}
+                ],
+                "houses": [
+                    {
+                        "houseId": "169",
+                        "houseName": "1-1101",
+                        "houseNo": "1-1101",
+                        "unitName": "1",
+                        "unitOrder": 1,
+                        "layerCount": 1,
+                        "minAtLayer": 10,
+                        "layerName": "11层",
+                        "order": 169,
+                        "list":{
+                            "houseId":"",
+                            "houseName":"",
+                            "houseNo":""
+                        },
+                        "symbols": [
+                            {
+                                "text": "初始",
+                                "color": "255,255,255"
+                            }
+                        ],
+                        "blocks": [
+                            {
+                                "name": "房屋名称",
+                                "value": "1-1101"
+                            },
+                            {
+                                "name": "户型",
+                                "value": "三居室"
+                            },
+                            {
+                                "name": "户型",
+                                "value": "三居室"
+                            },
+                            {
+                                "name": "户型",
+                                "value": "三居室"
+                            },
+                            {
+                                "name": "户型",
+                                "value": "三居室"
+                            },
+                            {
+                                "name": "建筑面积",
+                                "value": "72.6"
+                            }
+                        ],
+                        "isEnabled": true,
+                        "isSelected": false
+                    },
+                    {
+                        "houseId": "1693",
+                        "houseName": "1-1103",
+                        "houseNo": "1-1103",
+                        "unitName": "1",
+                        "unitOrder": 1,
+                        "layerCount": 1,
+                        "minAtLayer": 11,
+                        "layerName": "11层",
+                        "order": 16,
+                        "list":{
+                            "houseId":"",
+                            "houseName":"",
+                            "houseNo":""
+                        },
+                        "symbols": [
+                            {
+                                "text": "初始",
+                                "color": "255,255,255"
+                            }
+                        ],
+                        "blocks": [
+                            {
+                                "name": "房屋名称",
+                                "value": "1-1101"
+                            },
+                            {
+                                "name": "户型",
+                                "value": "三居室"
+                            },
+                            {
+                                "name": "建筑面积",
+                                "value": "72.6"
+                            }
+                        ],
+                        "isEnabled": true,
+                        "isSelected": false
+                    },
+                    {
+                        "houseId": "1698",
+                        "houseName": "1-1102",
+                        "houseNo": "1-1102",
+                        "unitName": "1",
+                        "unitOrder": 1,
+                        "layerCount": 1,
+                        "minAtLayer": 11,
+                        "layerName": "11层",
+                        "order": 169,
+                        "list":{
+                            "houseId":"",
+                            "houseName":"",
+                            "houseNo":""
+                        },
+                        "symbols": [
+                            {
+                                "text": "初始",
+                                "color": "255,255,255"
+                            }
+                        ],
+                        "blocks": [
+                            {
+                                "name": "房屋名称",
+                                "value": "1-1101"
+                            },
+                            {
+                                "name": "户型",
+                                "value": "三居室"
+                            },
+                            {
+                                "name": "建筑面积",
+                                "value": "72.6"
+                            }
+                        ],
+                        "isEnabled": true,
+                        "isSelected": false
+                    },
+                    {
+                        "houseId": "1692",
+                        "houseName": "1-1201",
+                        "houseNo": "1-1201",
+                        "unitName": "1",
+                        "unitOrder": 1,
+                        "layerCount": 1,
+                        "minAtLayer": 12,
+                        "layerName": "12层",
+                        "order": 169,
+                        "list":{
+                            "houseId":"",
+                            "houseName":"",
+                            "houseNo":""
+                        },
+                        "symbols": [
+                            {
+                                "text": "初始",
+                                "color": "255,255,255"
+                            }
+                        ],
+                        "blocks": [
+                            {
+                                "name": "房屋名称",
+                                "value": "1-1101"
+                            },
+                            {
+                                "name": "户型",
+                                "value": "三居室"
+                            },
+                            {
+                                "name": "建筑面积",
+                                "value": "72.6"
+                            }
+                        ],
+                        "isEnabled": true,
+                        "isSelected": false
+                    },
+                    {
+                        "houseId": "1658",
+                        "houseName": "2-1201",
+                        "houseNo": "2-1201",
+                        "unitName": "2",
+                        "unitOrder": 2,
+                        "layerCount": 1,
+                        "minAtLayer": 1,
+                        "layerName": "12层",
+                        "order": 169,
+                        "list":{
+                            "houseId":"",
+                            "houseName":"",
+                            "houseNo":""
+                        },
+                        "symbols": [
+                            {
+                                "text": "初始",
+                                "color": "255,255,255"
+                            }
+                        ],
+                        "blocks": [
+                            {
+                                "name": "房屋名称",
+                                "value": "2-1101"
+                            },
+                            {
+                                "name": "户型",
+                                "value": "三居室"
+                            },
+                            {
+                                "name": "建筑面积",
+                                "value": "72.6"
+                            }
+                        ],
+                        "isEnabled": true,
+                        "isSelected": false
+                    }
+
+                ]
+            },
+            {
+                "logicBuildId": "2",
+                "logicBuildName": "商铺",
+                "houses": [
+                    {
+                        "houseId": "169",
+                        "houseName": "1-1101",
+                        "houseNo": "1-1101",
+                        "unitName": "1",
+                        "unitOrder": 1,
+                        "layerCount": 1,
+                        "minAtLayer": 11,
+                        "layerName": "11层",
+                        "order": 169,
+                        "symbols": [
+                            {
+                                "text": "初始",
+                                "color": "255,255,255"
+                            }
+                        ],
+                        "blocks": [
+                            {
+                                "name": "房屋名称",
+                                "value": "1-1101"
+                            },
+                            {
+                                "name": "户型",
+                                "value": "三居室"
+                            },
+                            {
+                                "name": "建筑面积",
+                                "value": "72.6"
+                            }
+                        ],
+                        "tableData": [
+                            {"label":"单元","prop":"unit","value":"1"},
+                            {"label":"面积","prop":"area","value":"100"}
+                        ],
+                        "isEnabled": true,
+                        "isSelected": false
+                    }
+                ]
+            }
+        ]
+    },
+    "tag": "909a56eb48ba4af6bbe43d7f366bbf85",
+    "errorCode": ""
+}

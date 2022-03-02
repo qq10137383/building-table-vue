@@ -1,0 +1,9 @@
+.unit-display-wrap {
+  overflow: hidden;
+
+  .building-td__header,
+  .building-td__unit,
+  .building-td__gutter {
+    @include primary-cell;
+  }
+}

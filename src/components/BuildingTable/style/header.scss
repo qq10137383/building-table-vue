@@ -1,0 +1,33 @@
+.building-header-wrap {
+  background-color: $primary-color--dark1;
+  height: $header-height;
+  line-height: $header-height;
+  color: $reverse-color;
+  font-size: $font-size--large;
+  border-radius: 2px;
+  margin: 0 0 2px 2px;
+  text-align: center;
+  position: relative;
+
+  .building-header_title {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+  }
+
+  .building-header__left,
+  .building-header__right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    padding: 0 35px;
+  }
+
+  .building-header__left {
+    left: 0;
+  }
+
+  .building-header__right {
+    right: 0;
+  }
+}

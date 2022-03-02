@@ -1,0 +1,37 @@
+$top: 3px;
+
+.building-legend-wrap {
+  background-color: $background-color--dark1;
+  margin-top: $top;
+  height: calc(100% - $top);
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: auto;
+  font-size: $font-size--small;
+  border-radius: 1px;
+  border: 1px solid $border-color;
+  box-shadow: 0 0 3px #ddd;
+
+  .legend-item {
+    height: 20px;
+    text-align: left;
+    margin-bottom: 10px;
+    white-space: nowrap;
+  }
+
+  .legend-item__symbol {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    box-shadow: 2px 2px 0 rgb(0, 0, 0, 0.1);
+  }
+
+  .legend-item__text {
+    display: inline-block;
+    margin-left: 6px;
+    vertical-align: 1px;
+    max-width: $legend-width - 40px;
+    @include text-ellipsis;
+  }
+}

@@ -1,0 +1,26 @@
+.building-table-wrap {
+  .building-table__content {
+    position: relative;
+  }
+
+  .building-table__content-left {
+    margin-right: $legend-width + 5px;
+    overflow: hidden;
+  }
+
+  .building-table__content-right {
+    position: absolute;
+    width: $legend-width;
+    right: 0;
+    bottom: 0;
+    top: 0;
+  }
+
+  .building-table__tip {
+    border: 1px solid $border-color;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
