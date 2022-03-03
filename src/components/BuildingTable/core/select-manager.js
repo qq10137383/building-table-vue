@@ -110,8 +110,10 @@ export default class SelectionManager {
 
     // 触发选择改变事件
     raiseEvent() {
+        if (!this.options.cb) return
+
         const value = this.getSelection()
-        this.options.cb && this.options.cb(value)
+        this.options.cb(value)
     }
 }
 

@@ -15,6 +15,7 @@ const unitConfig = {
     // 单元默认渲染函数
     render: function (h, { definition, logicBuildId, unitInfo, store }) {
         const { className, unitStyle, titleField, showCheck } = definition
+        const disabled = store.states.useMode != 'single'
         const id = `check-unit-${logicBuildId}-${unitInfo.unitName}`
 
         const checkUnit = (e) => {
@@ -24,7 +25,7 @@ const unitConfig = {
         return (
             <div class={['unit-cell-wrap', className]} style={unitStyle}>
                 <div class="bt-checkbox">
-                    {showCheck ? <input type="checkbox" id={id} class='bt-checkbox__input' on-click={checkUnit} /> : ''}
+                    {showCheck ? <input type="checkbox" id={id} disabled={disabled} class='bt-checkbox__input' on-click={checkUnit} /> : ''}
                     <label for={id} class="bt-checkbox__text">{unitInfo[titleField]}</label>
                 </div>
             </div>

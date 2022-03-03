@@ -17,7 +17,7 @@
     <div
       v-else
       class="building-table__tip"
-      :style="{ height: `${this.height}px` }"
+      :style="{ height: `${height}px` }"
     >
       {{ tipText }}
     </div>

@@ -15,6 +15,7 @@ const floorConfig = {
     // 楼层默认渲染函数
     render: function (h, { definition, logicBuildId, floorInfo, unitInfo, store }) {
         const { className, floorStyle, titleField, showCheck } = definition
+        const disabled = store.states.useMode != 'single'
         const id = `check-floor-${logicBuildId}-${floorInfo.layer}-${unitInfo.unitName}`
 
         const checkFloor = (e) => {
@@ -24,7 +25,7 @@ const floorConfig = {
         return (
             <div class={['floor-cell-wrap', className]} style={floorStyle}>
                 <div class="bt-checkbox">
-                    {showCheck ? <input type="checkbox" id={id} class='bt-checkbox__input' on-click={checkFloor} /> : ''}
+                    {showCheck ? <input type="checkbox" id={id} disabled={disabled} class='bt-checkbox__input' on-click={checkFloor} /> : ''}
                     <label for={id} class="bt-checkbox__text">{floorInfo[titleField]}</label>
                 </div>
             </div>
