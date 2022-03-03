@@ -151,15 +151,16 @@ export default {
 
 ### BuildingTable属性 
 
-| 参数         | 说明                                                      | 类型   | 默认值     | 可选值                          |
-| ------------ | --------------------------------------------------------- | ------ | ---------- | ------------------------------- |
-| className    | 楼盘表自定义样式类名                                      | String | ''         |                                 |
-| tableStyle   | 楼盘表自定义样式                                          | Object |            |                                 |
-| height       | 楼盘表高度                                                | Number | 600        |                                 |
-| buildingData | 楼盘表数据                                                | Object |            |                                 |
-| logicBuildId | 当前逻辑幢ID，为空时加载第一个逻辑幢，使用.sync可双向绑定 | String | ''         |                                 |
-| useMode      | 楼盘表选择模式，优先级低于buildingData的useMode           | String | ''         | "single", "multiple", "disable" |
-| tipText      | 提示信息                                                  | String | '暂无数据' |                                 |
+| 参数         | 说明                                                      | 类型    | 默认值     | 可选值                          |
+| ------------ | --------------------------------------------------------- | ------- | ---------- | ------------------------------- |
+| className    | 楼盘表自定义样式类名                                      | String  | ''         |                                 |
+| tableStyle   | 楼盘表自定义样式                                          | Object  |            |                                 |
+| height       | 楼盘表高度                                                | Number  | 600        |                                 |
+| buildingData | 楼盘表数据                                                | Object  |            |                                 |
+| logicBuildId | 当前逻辑幢ID，为空时加载第一个逻辑幢，使用.sync可双向绑定 | String  | ''         |                                 |
+| selectionMode | 楼盘表选择模式，优先级低于buildingData的useMode           | String  | ''         | "single", "multiple", "disable" |
+| showLegends  | 是否显示图例                                              | Boolean | true       |                                 |
+| tipText      | 提示信息                                                  | String  | '暂无数据' |                                 |
 
 ### BuildingTable方法
 

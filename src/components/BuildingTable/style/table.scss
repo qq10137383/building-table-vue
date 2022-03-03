@@ -1,19 +1,29 @@
 .building-table-wrap {
   .building-table__content {
     position: relative;
+
+    &.has-legend {
+      .building-table__content-left {
+        margin-right: $legend-width + 5px;
+      }
+
+      .building-table__content-right {
+        width: $legend-width;
+        display: block;
+      }
+    }
   }
 
   .building-table__content-left {
-    margin-right: $legend-width + 5px;
     overflow: hidden;
   }
 
   .building-table__content-right {
     position: absolute;
-    width: $legend-width;
     right: 0;
     bottom: 0;
     top: 0;
+    display: none;
   }
 
   .building-table__tip {

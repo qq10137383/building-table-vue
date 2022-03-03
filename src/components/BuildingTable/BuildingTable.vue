@@ -4,7 +4,7 @@
       <div class="building-table__header">
         <building-header />
       </div>
-      <div class="building-table__content">
+      <div :class="['building-table__content', { 'has-legend': showLegends }]">
         <div class="building-table__content-left">
           <unit-display />
           <house-display />
@@ -59,10 +59,15 @@ export default {
     // 当前逻辑幢ID，为空时加载第一个逻辑幢，使用.sync可双向绑定
     logicBuildId: String,
     // 楼盘表选择模式，优先级低于buildingData的useMode
-    useMode: {
+    selectionMode: {
       type: String,
       validator: (val) => ["single", "multiple", "disable"].includes(val),
       default: "multiple",
+    },
+    // 是否显示图例
+    showLegends: {
+      type: Boolean,
+      default: true,
     },
     // 提示信息
     tipText: {
@@ -73,7 +78,7 @@ export default {
   data() {
     // 初始化store
     this.store = createStore({
-      useMode: this.useMode,
+      useMode: this.selectionMode,
       layout: {
         height: this.height - parseInt(headerHeight),
       },
