@@ -24,7 +24,9 @@ export default {
 
     return (
       <div class="building-header-wrap">
-        <h4 class="building-header_title"> {this.title}</h4>
+        <h4 class="building-header_title" title={this.title}>
+          {this.title}
+        </h4>
         <div class="building-header__left">
           <switch-tool />
           {headerLeft}

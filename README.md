@@ -70,7 +70,7 @@ export default {
             // 楼盘表数据 
             buildingData: null,
             // 房屋单元格哪些字段不显示
-            excludeFields: ["房屋名称"]  // 排除房屋名称
+            excludeFields: ["房屋名称"],  // 排除房屋名称
             // 不显示房屋单元格图例
             showLegend: false
        }
@@ -174,17 +174,18 @@ export default {
 
 ### BuildingTable事件
 
-| 事件名            | 说明                       | 参数                         |
-| ----------------- | -------------------------- | ---------------------------- |
-| house-title-click | 房号点击事件               | house,MouseEvent             |
-| house-click       | 房屋单元格点击事件         | house,MouseEvent             |
-| house-dbclick     | 房屋单元格双击事件         | house,MouseEvent             |
-| house-over        | 房屋单元格鼠标经过事件     | house,MouseEvent             |
-| house-out         | 房屋单元格鼠标离开事件     | house,MouseEvent             |
-| house-contextmenu | 房屋单元格鼠标右键菜单事件 | house,MouseEvent             |
-| select-change     | 房屋单元格选择改变事件     | Array\<house>                 |
-| floor-checked     | 楼层checkbox点击事件       | floorInfo, unitInfo, checked |
-| unit-checked      | 单元checkbox点击事件       | unitInfo, checked            |
+| 事件名             | 说明                       | 参数                         |
+| ------------------ | -------------------------- | ---------------------------- |
+| house-title-click  | 房号点击事件               | house,MouseEvent             |
+| house-click        | 房屋单元格点击事件         | house,MouseEvent             |
+| house-dbclick      | 房屋单元格双击事件         | house,MouseEvent             |
+| house-over         | 房屋单元格鼠标经过事件     | house,MouseEvent             |
+| house-out          | 房屋单元格鼠标离开事件     | house,MouseEvent             |
+| house-contextmenu  | 房屋单元格鼠标右键菜单事件 | house,MouseEvent             |
+| logic-build-change | 逻辑幢改变事件             | logicBuildId                 |
+| select-change      | 房屋单元格选择改变事件     | Array\<house>                |
+| floor-checked      | 楼层checkbox点击事件       | floorInfo, unitInfo, checked |
+| unit-checked       | 单元checkbox点击事件       | unitInfo, checked            |
 
 ### BuildingTable插槽
 
@@ -248,16 +249,16 @@ export default {
 
 ### HouseDefinition属性 
 
-| 参数          | 说明                                     | 类型          | 默认值 | 可选值 |
-| ------------- | ---------------------------------------- | ------------- | ------ | ------ |
-| width         | 房屋单元格宽度                           | Number        | 220    |        |
-| className     | 房屋单元格自定义类名                     | String        | ''     |        |
-| houseStyle    | 房屋单元格自定义样式                     | Object        |        |        |
-| showBlock     | 是否显示房屋详细(blocks)信息             | Boolean       | true   |        |
+| 参数          | 说明                                     | 类型           | 默认值 | 可选值 |
+| ------------- | ---------------------------------------- | -------------- | ------ | ------ |
+| width         | 房屋单元格宽度                           | Number         | 220    |        |
+| className     | 房屋单元格自定义类名                     | String         | ''     |        |
+| houseStyle    | 房屋单元格自定义样式                     | Object         |        |        |
+| showBlock     | 是否显示房屋详细(blocks)信息             | Boolean        | true   |        |
 | includeFields | blocks中要显示的字段，不设置显示所有字段 | Array\<String> | null   |        |
 | excludeFields | blocks中要排除的字段                     | Array\<String> | null   |        |
-| showSymbol    | 是否显示房屋符号(symbols)信息            | Boolean       | true   |        |
-| symbolColumn  | 每行显示几个房屋符号(symbol)             | Number        | 3      |        |
+| showSymbol    | 是否显示房屋符号(symbols)信息            | Boolean        | true   |        |
+| symbolColumn  | 每行显示几个房屋符号(symbol)             | Number         | 3      |        |
 
 ### HouseDefinition scope 参数
 

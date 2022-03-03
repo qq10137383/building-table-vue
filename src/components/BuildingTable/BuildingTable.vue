@@ -121,6 +121,7 @@ export default {
     buildingData: "setData",
     logicBuildId: "changeLogicBuild",
     logicBuild(val) {
+      this.$emit("logic-build-change", val.id);
       this.$emit("update:logicBuildId", val.id);
     },
     height(val) {
