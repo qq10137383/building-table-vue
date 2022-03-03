@@ -21,7 +21,7 @@
       <!-- 房屋单元格配置定义，如需要完全自定义房屋单元格内容模板，使用slot-scope -->
       <house-definition :excludeFields="excludeFields">
         <!-- <template slot-scope="scope">
-          <div class="house">{{ scope.houseInfo.houseName }}</div>
+          <div class="house-cell-wrap">{{ scope.houseInfo.houseName }}</div>
         </template> -->
       </house-definition>
       <!-- 自定义标题栏左侧工具栏 -->

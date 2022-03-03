@@ -4,9 +4,9 @@ import { deepClone } from "./utils"
 const props = {
   // 单元单元格高度，默认：50px
   height: Number,
-  // 单元自定义类名
+  // 单元单元格自定义类名
   className: String,
-  // 单元自定义样式
+  // 单元单元格自定义样式
   unitStyle: Object,
   // 用来显示单元字段名，默认：'unitName'
   titleField: String,

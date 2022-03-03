@@ -58,7 +58,7 @@ export default {
     buildingData: Object,
     // 当前逻辑幢ID，为空时加载第一个逻辑幢，使用.sync可双向绑定
     logicBuildId: String,
-    // 楼盘表选择模式，如果buildingData设置了useMode，此设置会被覆盖
+    // 楼盘表选择模式，优先级低于buildingData的useMode
     useMode: {
       type: String,
       validator: (val) => ["single", "multiple", "disable"].includes(val),
@@ -67,7 +67,7 @@ export default {
     // 提示信息
     tipText: {
       type: String,
-      default: "暂无数据展示",
+      default: "暂无数据",
     },
   },
   data() {

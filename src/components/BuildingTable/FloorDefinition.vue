@@ -4,9 +4,9 @@ import { deepClone } from "./utils"
 const props = {
   // 楼层单元格宽度，默认：50px
   width: Number,
-  // 楼层自定义类名
+  // 楼层单元格自定义类名
   className: String,
-  // 楼层自定义样式
+  // 楼层单元格自定义样式
   floorStyle: Object,
   // 用来显示楼层字段名，默认：'layer'
   titleField: String,

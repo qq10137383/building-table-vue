@@ -16,7 +16,7 @@ const props = {
   excludeFields: Array,
   // 是否显示房屋符号(symbols)信息，默认：true
   showSymbol: Boolean,
-  // 每行显示几个房屋符号，默认：3
+  // 每行显示几个房屋符号(symbol)，默认：3
   symbolColumn: Number,
 };
 
