@@ -1,6 +1,7 @@
 <script>
 import { mapStates } from "./store";
-import { uniqueId } from "./utils";
+import { uniqueId, getBuildingTable } from "./utils";
+import { headerHeight } from "./style/variables.scss";
 
 /**
  * 楼盘表房屋、楼层显示组件
@@ -31,7 +32,9 @@ export default {
       return value;
     },
     tableHeight() {
-      return this.layout.height - this.unitDefinition.height;
+      return (
+        this.layout.height - parseInt(headerHeight) - this.unitDefinition.height
+      );
     },
   },
   methods: {
@@ -56,17 +59,19 @@ export default {
     clickTest(house, args) {
       return house && args.target && args.target.tagName.toLowerCase() != "td";
     },
-    // 触发房屋单元格事件
-    raiseHouseEvent(eventName, house, args) {
-      if (this.clickTest(house, args)) {
-        this.$parent.$emit(eventName, house, args);
+ // 触发房屋单元格事件
+    raiseHouseEvent(eventName, house, event) {
+      if (this.clickTest(house, event)) {
+        const root = getBuildingTable(this);
+        root && root.$emit(eventName, { house, event });
       }
     },
     // 点击房屋时切换选中状态
-    handleHouseClick(house, args) {
-      if (this.clickTest(house, args) && house.isEnabled) {
+    handleHouseClick(house, event) {
+      if (this.clickTest(house, event) && house.isEnabled) {
         this.store.commit("selectHouse", house, !house.isSelected);
-        this.$parent.$emit("house-click", house, args);
+        const root = getBuildingTable(this);
+        root && root.$emit("house-click", { house, event });
       }
     },
     // 滚动房屋到视图区域，尽可能居中显示
@@ -236,7 +241,8 @@ export default {
   },
   watch: {
     selections(val) {
-      this.$parent.$emit("select-change", val);
+      const root = getBuildingTable(this);
+      root && root.$emit("select-change", val);
     },
     "locate.key"() {
       const house = this.locate.house;

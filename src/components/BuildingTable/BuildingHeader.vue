@@ -1,5 +1,6 @@
 <script>
-import SwitchTool from "./tools/SwitchTool";
+import { getBuildingTable } from "./utils";
+import SwitchLogicTool from "./tools/SwitchLogicTool";
 import LocateTool from "./tools/LocateTool";
 
 /**
@@ -9,7 +10,7 @@ export default {
   name: "BuildingHeader",
   inject: ["store"],
   components: {
-    SwitchTool,
+    SwitchLogicTool,
     LocateTool,
   },
   computed: {
@@ -20,7 +21,7 @@ export default {
   },
   render() {
     // 渲染父元素插槽
-    const { headerLeft, headerRight } = this.$parent.$slots;
+    const { headerLeft, headerRight } = getBuildingTable(this);
 
     return (
       <div class="building-header-wrap">
@@ -28,7 +29,7 @@ export default {
           {this.title}
         </h4>
         <div class="building-header__left">
-          <switch-tool />
+          <switch-logic-tool />
           {headerLeft}
         </div>
         <div class="building-header__right">

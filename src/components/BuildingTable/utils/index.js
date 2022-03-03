@@ -63,7 +63,7 @@ export function deepClone(source) {
  */
 export function deepAssign(target, source) {
     Object.keys(source).forEach(key => {
-        if (source[key] && typeof source[key] === 'object') {
+        if (source[key] && Object.prototype.toString.call(source[key]) === "[object Object]") {
             deepAssign(target[key], source[key])
         } else {
             target[key] = source[key]
@@ -93,4 +93,18 @@ export function toColor(color) {
         return color.indexOf('rgba') >= 0 ? color : `rgba(${color})`
     }
     return color
+}
+
+/**
+ * 获取根组件BuildingTable实例
+ * @param {Object}} vm 
+ * @returns 
+ */
+export function getBuildingTable(vm) {
+    if (vm.$options.isBuildingTable) {
+        return vm
+    }
+    else {
+        return getBuildingTable(vm.$parent)
+    }
 }

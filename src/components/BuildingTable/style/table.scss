@@ -26,11 +26,16 @@
     display: none;
   }
 
-  .building-table__tip {
+  .building-table__tip,
+  .building-table__empty {
     border: 1px solid $border-color;
     border-radius: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .building-table__empty {
+    margin: 3px 0 0 2px;
   }
 }

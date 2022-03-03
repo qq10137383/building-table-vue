@@ -4,6 +4,9 @@
 
   .bt-checkbox__input {
     margin-right: 2px;
+    &[disabled="disabled"] {
+      cursor: not-allowed;
+    }
   }
   .bt-checkbox__text {
     font-size: 14px;

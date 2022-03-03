@@ -6,19 +6,14 @@
       </div>
       <div :class="['building-table__content', { 'has-legend': showLegends }]">
         <div class="building-table__content-left">
-          <unit-display />
-          <house-display />
+          <building-content />
         </div>
         <div class="building-table__content-right">
           <building-legend />
         </div>
       </div>
     </div>
-    <div
-      v-else
-      class="building-table__tip"
-      :style="{ height: `${height}px` }"
-    >
+    <div v-else class="building-table__tip" :style="{ height: `${height}px` }">
       {{ tipText }}
     </div>
     <slot></slot>
@@ -29,8 +24,7 @@
 import { createStore, mapStates } from "./store";
 import { headerHeight } from "./style/variables.scss";
 import BuildingHeader from "./BuildingHeader";
-import UnitDisplay from "./UnitDisplay";
-import HouseDisplay from "./HouseDisplay";
+import BuildingContent from "./BuildingContent";
 import BuildingLegend from "./BuildingLegend";
 
 /**
@@ -38,10 +32,10 @@ import BuildingLegend from "./BuildingLegend";
  */
 export default {
   name: "BuildingTable",
+  isBuildingTable: true,
   components: {
     BuildingHeader,
-    UnitDisplay,
-    HouseDisplay,
+    BuildingContent,
     BuildingLegend,
   },
   props: {
@@ -56,7 +50,7 @@ export default {
     },
     // 楼盘表数据
     buildingData: Object,
-    // 当前逻辑幢ID，为空时加载第一个逻辑幢，使用.sync可双向绑定
+    // 当前逻辑幢ID，为空时加载第一个逻辑幢
     logicBuildId: String,
     // 楼盘表选择模式，优先级低于buildingData的useMode
     selectionMode: {
@@ -127,7 +121,6 @@ export default {
     logicBuildId: "changeLogicBuild",
     logicBuild(val) {
       this.$emit("logic-build-change", val.id);
-      this.$emit("update:logicBuildId", val.id);
     },
     height(val) {
       this.store.commit("setLayout", {

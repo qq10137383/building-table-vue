@@ -4,7 +4,7 @@ import builder from './builder'
 import definition from './definition'
 import selector from './selector'
 import locator from './locator'
-import { copyProperties } from '../utils'
+import { copyProperties, deepAssign } from '../utils'
 
 const basicStates = {
     // 幢ID
@@ -58,7 +58,11 @@ export default Vue.extend({
         },
         // 设置布局参数
         setLayout(layout) {
-            Object.assign(this.states.layout, layout)
+            deepAssign(this.states.layout, layout)
+        },
+        // 设置state值
+        setState(state) {
+            deepAssign(this.states, state)
         }
     }
 })

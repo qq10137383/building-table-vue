@@ -1,4 +1,4 @@
-import { toColor } from '../utils'
+import { toColor, getBuildingTable } from '../utils'
 
 /**
  * 房屋单元格默认配置
@@ -24,6 +24,7 @@ const houseConfig = {
     render: function (h, { definition, houseInfo }) {
         const { className, houseStyle, showBlock, includeFields, excludeFields, showSymbol, symbolColumn } = definition
         const { houseName, blocks, symbols } = houseInfo
+        const root = getBuildingTable(this)
 
         const renderBlock = () => {
             const blockVNodes = []
@@ -58,9 +59,9 @@ const houseConfig = {
             }
             return symbolVNodes
         }
-        const clickTitle = (e) => {
-            e.stopPropagation()
-            this.$parent.$emit('house-title-click', houseInfo, e)
+        const clickTitle = (event) => {
+            event.stopPropagation()
+            root && root.$emit('house-title-click', { house: houseInfo, event })
         }
 
         return (

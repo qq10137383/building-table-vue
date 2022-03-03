@@ -1,5 +1,5 @@
 import { unitConfig, floorConfig, houseConfig } from '../config'
-import { deepClone } from '../utils'
+import { deepClone, deepAssign } from '../utils'
 
 /**
  * 配置模块
@@ -19,13 +19,13 @@ export default {
     },
     methods: {
         setUnitDefinition(definition) {
-            Object.assign(this.states.unitDefinition, definition)
+            deepAssign(this.states.unitDefinition, definition)
         },
         setFloorDefinition(definition) {
-            Object.assign(this.states.floorDefinition, definition)
+            deepAssign(this.states.floorDefinition, definition)
         },
         setHouseDefinition(definition) {
-            Object.assign(this.states.houseDefinition, definition)
+            deepAssign(this.states.houseDefinition, definition)
         }
     }
 }

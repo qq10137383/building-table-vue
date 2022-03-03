@@ -3,7 +3,7 @@ $top: 3px;
 .building-legend-wrap {
   background-color: $background-color--dark1;
   margin-top: $top;
-  height: calc(100% - $top);
+  height: calc(100% - #{$top});
   padding: 10px;
   box-sizing: border-box;
   overflow: auto;

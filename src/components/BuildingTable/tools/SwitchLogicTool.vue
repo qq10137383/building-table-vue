@@ -1,5 +1,5 @@
 <template>
-  <div class="building-tool switch-tool-wrap">
+  <div class="building-tool switch-logic-tool-wrap">
     <div
       v-for="logic in logicInfos"
       :key="logic.id"
@@ -23,7 +23,7 @@ import { mapStates } from "../store";
  * 逻辑幢选择组件
  */
 export default {
-  name: "SwitchTool",
+  name: "SwitchLogicTool",
   inject: ["store"],
   computed: {
     ...mapStates({
