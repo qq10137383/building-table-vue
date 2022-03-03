@@ -182,7 +182,7 @@ export default {
 | house-over        | 房屋单元格鼠标经过事件     | house,MouseEvent             |
 | house-out         | 房屋单元格鼠标离开事件     | house,MouseEvent             |
 | house-contextmenu | 房屋单元格鼠标右键菜单事件 | house,MouseEvent             |
-| select-change     | 房屋单元格选择改变事件     | Array<house>                 |
+| select-change     | 房屋单元格选择改变事件     | Array\<house>                 |
 | floor-checked     | 楼层checkbox点击事件       | floorInfo, unitInfo, checked |
 | unit-checked      | 单元checkbox点击事件       | unitInfo, checked            |
 
@@ -254,8 +254,8 @@ export default {
 | className     | 房屋单元格自定义类名                     | String        | ''     |        |
 | houseStyle    | 房屋单元格自定义样式                     | Object        |        |        |
 | showBlock     | 是否显示房屋详细(blocks)信息             | Boolean       | true   |        |
-| includeFields | blocks中要显示的字段，不设置显示所有字段 | Array<String> | null   |        |
-| excludeFields | blocks中要排除的字段                     | Array<String> | null   |        |
+| includeFields | blocks中要显示的字段，不设置显示所有字段 | Array\<String> | null   |        |
+| excludeFields | blocks中要排除的字段                     | Array\<String> | null   |        |
 | showSymbol    | 是否显示房屋符号(symbols)信息            | Boolean       | true   |        |
 | symbolColumn  | 每行显示几个房屋符号(symbol)             | Number        | 3      |        |
 
