@@ -24,6 +24,14 @@
           <div class="house">{{ scope.houseInfo.houseName }}</div>
         </template> -->
       </house-definition>
+      <!-- 自定义标题栏左侧工具栏 -->
+      <!-- <template v-slot:headerLeft>
+        <div class="building-tool">left-slot</div>
+      </template> -->
+      <!-- 自定义标题栏右侧工具栏 -->
+      <!-- <template v-slot:headerRight>
+        <div class="building-tool">right-slot</div>
+      </template> -->
     </building-table>
   </div>
 </template>
@@ -46,25 +54,18 @@ export default {
   data() {
     return {
       buildingData: null,
-      excludeFields: ["房屋名称"],
+      excludeFields: ["房屋名称"], //  排除显示字段
     };
   },
   created() {
     // 创建测试数据
     let data = this.createTestData();
     // 测试跨多层
-    // data.logicBuilds[0].houses.splice(1, 1)
-    // data.logicBuilds[0].houses.splice(9, 1)
-    // data.logicBuilds[0].houses.splice(11, 1)
-    // data.logicBuilds[0].houses.splice(11, 1)
-    // data.logicBuilds[0].houses.splice(11, 1)
     data.logicBuilds[0].houses[0].layerCount = 3;
     data.logicBuilds[0].houses[0].columnCount = 2;
     // 加载数据
     // this.$refs.buildingTable.setData(jsonData.data);
-    setTimeout(() => {
-      this.buildingData = data;
-    }, 3000);
+    this.buildingData = data;
   },
   methods: {
     createTestData() {

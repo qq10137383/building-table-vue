@@ -1,15 +1,3 @@
-<template>
-  <div class="building-header-wrap">
-    <h4 class="building-header_title">{{ title }}</h4>
-    <div class="building-header__left">
-      <switch-tool />
-    </div>
-    <div class="building-header__right">
-      <locate-tool />
-    </div>
-  </div>
-</template>
-
 <script>
 import SwitchTool from "./tools/SwitchTool";
 import LocateTool from "./tools/LocateTool";
@@ -29,6 +17,24 @@ export default {
       const { buildName, buildAddress } = this.store.states;
       return buildName ? `${buildName}(${buildAddress})` : "";
     },
+  },
+  render() {
+    // 渲染父元素插槽
+    const { headerLeft, headerRight } = this.$parent.$slots;
+
+    return (
+      <div class="building-header-wrap">
+        <h4 class="building-header_title"> {this.title}</h4>
+        <div class="building-header__left">
+          <switch-tool />
+          {headerLeft}
+        </div>
+        <div class="building-header__right">
+          <locate-tool />
+          {headerRight}
+        </div>
+      </div>
+    );
   },
 };
 </script>

@@ -49,7 +49,7 @@ export default {
     className: String,
     // 楼盘表自定义样式
     tableStyle: Object,
-    // 楼盘表内容区(不包括标题栏)高度
+    // 楼盘表高度
     height: {
       type: Number,
       default: 600,

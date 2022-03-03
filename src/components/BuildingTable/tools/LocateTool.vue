@@ -1,5 +1,5 @@
 <template>
-  <div class="locate-tool-wrap">
+  <div class="building-tool locate-tool-wrap">
     <select class="locate-tool__select" v-model="locateParams.unitName">
       <option v-for="unit in unitInfos" :key="unit.unitName">
         {{ unit.unitName }}
@@ -43,16 +43,19 @@ export default {
     }),
   },
   watch: {
-    unitInfos(val) {
-      if (val && val.length) {
-        this.locateParams.unitName = val[0].unitName;
-      }
+    unitInfos: {
+      handler(val) {
+        if (val && val.length) {
+          this.locateParams.unitName = val[0].unitName;
+        }
+      },
+      immediate: true,
     },
   },
   methods: {
     locateHouse() {
       this.store.commit("setLocateHouse", this.locateParams);
-    }
+    },
   },
 };
 </script>

@@ -1,4 +1,8 @@
 /*tool common */
+.building-tool:not(:first-child) {
+  margin-left: 10px;
+}
+
 .building-tool__button {
   display: inline-block;
   width: 20px;

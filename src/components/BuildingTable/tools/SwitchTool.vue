@@ -1,5 +1,5 @@
 <template>
-  <div class="switch-tool-wrap">
+  <div class="building-tool switch-tool-wrap">
     <div
       v-for="logic in logicInfos"
       :key="logic.id"
