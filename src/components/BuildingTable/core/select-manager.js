@@ -85,7 +85,9 @@ export default class SelectionManager {
         if (this.disabled) return
 
         this.query.queryHousesByUnit(unitInfo).forEach(house => {
-            this.setHouseCell(house, selected)
+            if (house.isEnabled) {
+                this.setHouseCell(house, selected)
+            }
         })
         this.raiseEvent()
     }
@@ -95,7 +97,9 @@ export default class SelectionManager {
         if (this.disabled) return
 
         this.query.queryHousesByLayer(layerInfo, unitInfo).forEach(house => {
-            this.setHouseCell(house, selected)
+            if (house.isEnabled) {
+                this.setHouseCell(house, selected)
+            }
         })
         this.raiseEvent()
     }

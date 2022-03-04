@@ -4,7 +4,7 @@
 
   .bt-checkbox__input {
     margin-right: 2px;
-    &[disabled="disabled"] {
+    &[disabled] {
       cursor: not-allowed;
     }
   }
