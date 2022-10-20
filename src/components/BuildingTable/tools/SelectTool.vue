@@ -1,6 +1,11 @@
 <template>
   <div class="building-tool select-tool-wrap" v-if="useMode === 'multiple'">
-    <input id="selectTool" type="checkbox" @change="handleChange" />
+    <input
+      id="selectTool"
+      type="checkbox"
+      v-model="selectAll"
+      @change="handleChange"
+    />
     <label for="selectTool">全选/反选</label>
   </div>
 </template>
@@ -17,7 +22,19 @@ export default {
   computed: {
     ...mapStates({
       useMode: "useMode",
+      dataKey: "dataKey",
     }),
+  },
+  data() {
+    return {
+      selectAll: false,
+    };
+  },
+  watch: {
+    // 数据更新时重置
+    dataKey() {
+      this.selectAll = false;
+    },
   },
   methods: {
     handleChange(e) {
