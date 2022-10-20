@@ -7,11 +7,11 @@
       @select-change="selectChange"
     >
       <!-- 单元单元格配置定义，如需要完全自定义单元单元格内容模板，使用slot-scope -->
-      <!-- <unit-definition>
+      <unit-definition>
         <template slot-scope="scope">
           <div class="unit">{{ scope.unitInfo.unitName }}</div>
         </template>
-      </unit-definition> -->
+      </unit-definition>
       <!-- 楼层单元格配置定义，如需要完全自定义楼层单元格内容模板，使用slot-scope -->
       <!-- <floor-definition>
         <template slot-scope="scope">
@@ -19,7 +19,7 @@
         </template>
       </floor-definition> -->
       <!-- 房屋单元格配置定义，如需要完全自定义房屋单元格内容模板，使用slot-scope -->
-      <house-definition :excludeFields="excludeFields">
+      <house-definition :excludeFields="excludeFields" :simple="true">
         <!-- <template slot-scope="scope">
           <div class="house-cell-wrap">{{ scope.houseInfo.houseName }}</div>
         </template> -->
@@ -32,24 +32,35 @@
       <!-- <template v-slot:headerRight>
         <div class="building-tool">right-slot</div>
       </template> -->
+      <house-tooltip>
+        <template slot-scope="house">
+          <ul>
+            <li>房号{{ house.houseName }}</li>
+            <li>建筑面积：{{ house.houseName }}</li>
+            <li>权利人：{{ house.houseName }}</li>
+          </ul>
+        </template>
+      </house-tooltip>
     </building-table>
   </div>
 </template>
 
 <script>
 import BuildingTable, {
-  // UnitDefinition,
+  UnitDefinition,
   // FloorDefinition,
   HouseDefinition,
+  HouseTooltip,
 } from "@/components/BuildingTable";
 
 export default {
   name: "BuildingTableDemo",
   components: {
     BuildingTable,
-    // UnitDefinition,
+    UnitDefinition,
     // FloorDefinition,
     HouseDefinition,
+    HouseTooltip,
   },
   data() {
     return {
@@ -156,21 +167,21 @@ export default {
         // 色块符号信息
         symbols: [
           {
-            text: "转移登记",
-            color: "153,56,8",
+            name: "转移登记",
+            value: "153,56,8",
           },
-          {
-            text: "抵押登记",
-            color: "94,4,65",
-          },
-          {
-            text: "查封登记",
-            color: "153,56,8",
-          },
-          {
-            text: "抵押登记",
-            color: "94,4,65",
-          },
+          // {
+          //   name: "抵押登记",
+          //   value: "94,4,65",
+          // },
+          // {
+          //   name: "查封登记",
+          //   value: "153,56,8",
+          // },
+          // {
+          //   name: "抵押登记",
+          //   value: "94,4,65",
+          // },
         ],
         // 字段显示信息
         blocks: [

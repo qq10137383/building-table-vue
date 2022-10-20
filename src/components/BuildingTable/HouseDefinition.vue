@@ -18,6 +18,8 @@ const props = {
   showSymbol: Boolean,
   // 每行显示几个房屋符号(symbol)，默认：3
   symbolColumn: Number,
+  // 是否以精简模式显示
+  simple: Boolean,
 };
 
 /**
@@ -34,6 +36,12 @@ export default {
     // 创建房屋配置定义
     createHouseDefinition() {
       const definition = deepClone(this.$options.propsData);
+      // 精简模式
+      if (definition.simple) {
+        definition.className = "simple-cell";
+        definition.showBlock = false;
+        definition.width = 90;
+      }
       // 定义render函数，如果有自定义模板使用自定义模块，否则使用默认模板
       if (this.$scopedSlots.default) {
         definition.render = (h, context) => {

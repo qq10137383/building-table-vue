@@ -104,6 +104,18 @@ export default class SelectionManager {
         this.raiseEvent()
     }
 
+    // 全选
+    selectAll(onlyEnabled) {
+        if (this.disabled) return
+
+        this.query.queryAll().forEach(house => {
+            if (!onlyEnabled || (onlyEnabled && house.isEnabled)) {
+                this.setHouseCell(house, true)
+            }
+        })
+        this.raiseEvent()
+    }
+
     // 清空选择
     clearSelect() {
         if (this.disabled) return

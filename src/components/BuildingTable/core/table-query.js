@@ -7,6 +7,17 @@ export default class TableQuery {
         this.currentLogic = null  // 当前逻辑幢
     }
 
+    // 查询所有房屋
+    queryAll() {
+        const result = []
+        for (const logic of this.logicBuilds) {
+            for (const house of logic.houses) {
+                result.push(house)
+            }
+        }
+        return result
+    }
+
     // 切换逻辑幢，logicId为空时切换第一个逻辑幢
     setLogicId(logicId) {
         if (!this.currentLogic || this.currentLogic.logicBuildId != logicId) {

@@ -51,6 +51,10 @@ export default {
         removeSelectHouses(houseIds) {
             this._selector.selectHouseByIds(houseIds, false)
         },
+        // 全选(onlyEnabled为true，isEnabled为false的房屋不会被选中)
+        selectAll(onlyEnabled) {
+            this._selector.selectAll(onlyEnabled)
+        },
         // 清空选择
         clearSelect() {
             this._selector.clearSelect()

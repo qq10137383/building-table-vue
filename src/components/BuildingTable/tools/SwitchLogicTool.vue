@@ -1,5 +1,8 @@
 <template>
-  <div class="building-tool switch-logic-tool-wrap">
+  <div
+    class="building-tool switch-logic-tool-wrap"
+    v-if="logicInfos.length > 1"
+  >
     <div
       v-for="logic in logicInfos"
       :key="logic.id"

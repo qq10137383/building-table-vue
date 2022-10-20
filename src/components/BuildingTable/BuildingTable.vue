@@ -2,7 +2,7 @@
   <div :class="['building-table-wrap', className]" :style="tableStyle">
     <div v-if="logicBuild.id" class="building-table__visual">
       <div class="building-table__header">
-        <building-header />
+        <building-header :show-title="showTitle" :tools="tools" />
       </div>
       <div :class="['building-table__content', { 'has-legend': showLegends }]">
         <div class="building-table__content-left">
@@ -58,10 +58,20 @@ export default {
       validator: (val) => ["single", "multiple", "disable"].includes(val),
       default: "multiple",
     },
+    // 是否显示标题
+    showTitle: {
+      type: Boolean,
+      default: false,
+    },
     // 是否显示图例
     showLegends: {
       type: Boolean,
       default: true,
+    },
+    // 楼盘表工具
+    tools: {
+      type: Array,
+      default: () => ["locate", "select", "switchLogic"],
     },
     // 提示信息
     tipText: {
@@ -110,6 +120,10 @@ export default {
     // 移除房屋选择(houseIds：房屋ID集合)
     removeSelections(houseIds) {
       this.store.commit("removeSelectHouses", houseIds);
+    },
+    // 全选(onlyEnabled为true，isEnabled为false的房屋不会被选中)
+    selectAll(onlyEnabled = true) {
+      this.store.commit("selectAll", onlyEnabled);
     },
     // 清空选择
     clearSelection() {

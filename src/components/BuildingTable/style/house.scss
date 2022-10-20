@@ -51,6 +51,18 @@
     position: relative;
     cursor: pointer;
 
+    &.simple-cell {
+      padding-top: 6px;
+
+      .house-cell__block-title {
+        text-align: center;
+        text-decoration: initial;
+        display: block;
+        white-space: initial;
+        text-overflow: initial;
+      }
+    }
+
     &::before {
       position: absolute;
       right: -2px;

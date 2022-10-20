@@ -1,6 +1,7 @@
 <script>
 import { getBuildingTable } from "./utils";
 import SwitchLogicTool from "./tools/SwitchLogicTool";
+import SelectTool from "./tools/SelectTool";
 import LocateTool from "./tools/LocateTool";
 
 /**
@@ -11,7 +12,20 @@ export default {
   inject: ["store"],
   components: {
     SwitchLogicTool,
+    SelectTool,
     LocateTool,
+  },
+  props: {
+    // 是否显示标题
+    showTitle: {
+      type: Boolean,
+      default: false,
+    },
+    // 楼盘表工具
+    tools: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     title() {
@@ -21,20 +35,24 @@ export default {
   },
   render() {
     // 渲染父元素插槽
-    const { headerLeft, headerRight } = getBuildingTable(this);
+    const root = getBuildingTable(this);
+    const { headerLeft, headerRight } = root.$slots;
 
     return (
       <div class="building-header-wrap">
-        <h4 class="building-header_title" title={this.title}>
-          {this.title}
-        </h4>
+        {this.showTitle && (
+          <h4 class="building-header_title" title={this.title}>
+            {this.title}
+          </h4>
+        )}
         <div class="building-header__left">
-          <switch-logic-tool />
+          {this.tools.includes("switchLogic") && <switch-logic-tool />}
+          {this.tools.includes("select") && <select-tool />}
           {headerLeft}
         </div>
         <div class="building-header__right">
-          <locate-tool />
           {headerRight}
+          {this.tools.includes("locate") && <locate-tool />}
         </div>
       </div>
     );

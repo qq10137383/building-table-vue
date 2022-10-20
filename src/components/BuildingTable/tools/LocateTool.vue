@@ -1,22 +1,26 @@
 <template>
   <div class="building-tool locate-tool-wrap">
-    <select class="locate-tool__select" v-model="locateParams.unitName">
+    <select
+      v-if="unitInfos.length > 1"
+      v-model="locateParams.unitName"
+      class="locate-tool__select"
+    >
       <option v-for="unit in unitInfos" :key="unit.unitName">
         {{ unit.unitName }}
       </option>
     </select>
     <input
-      class="locate-tool__input"
       v-model="locateParams.houseNo"
+      class="locate-tool__input"
       placeholder="房号定位"
       style="width: 60px"
       @keyup.enter="locateHouse"
     />
     <span
-      class="building-tool__button locate-button"
+      class="building-tool__icon locate-button"
       title="定位房屋"
       @click="locateHouse"
-    ></span>
+    />
   </div>
 </template>
 

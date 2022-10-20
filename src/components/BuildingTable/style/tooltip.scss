@@ -1,0 +1,30 @@
+.house-tooltip-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.25);
+  z-index: 2000;
+
+  > ul {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    list-style: none;
+    font-size: 13px;
+    color: #666;
+    line-height: 20px;
+  }
+}
+
+.tooltip-enter-active,
+.tooltip-leave-active {
+  transition: opacity 0.3s linear;
+}
+
+.tooltip-enter,
+.tooltip-leave-to {
+  opacity: 0;
+}

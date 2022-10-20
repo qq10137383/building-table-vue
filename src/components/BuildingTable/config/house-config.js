@@ -20,9 +20,11 @@ const houseConfig = {
     showSymbol: true,
     // 每行显示几个房屋符号
     symbolColumn: 3,
+    // 是否以精简模式显示
+    simple: false,
     // 房屋单元格默认渲染函数
     render: function (h, { definition, houseInfo }) {
-        const { className, houseStyle, showBlock, includeFields, excludeFields, showSymbol, symbolColumn } = definition
+        const { className, houseStyle, showBlock, includeFields, excludeFields, showSymbol, symbolColumn, simple } = definition
         const { houseName, blocks, symbols } = houseInfo
         const root = getBuildingTable(this)
 
@@ -51,8 +53,8 @@ const houseConfig = {
                 const items = []
                 if (index % symbolColumn == 0) {
                     for (let i = index; i < Math.min(index + symbolColumn, symbols.length); i++) {
-                        const { color, text } = symbols[i]
-                        items.push(<span class="house-cell__symbol-item" style={{ backgroundColor: toColor(color) }} title={text} />)
+                        const { name, value } = symbols[i]
+                        items.push(<span class="house-cell__symbol-item" style={{ backgroundColor: toColor(value) }} title={name} />)
                     }
                     symbolVNodes.push(<div class="house-cell__symbol-row">{items}</div>)
                 }
@@ -60,14 +62,14 @@ const houseConfig = {
             return symbolVNodes
         }
         const clickTitle = (event) => {
-            event.stopPropagation()
+            !simple && event.stopPropagation()
             root && root.$emit('house-title-click', { house: houseInfo, event })
         }
 
         return (
             <div class={['house-cell-wrap', className]} style={houseStyle}>
                 <div class="house-cell__block">
-                    <h4 class="house-cell__block-title" title={houseName} on-click={clickTitle}>{houseName}</h4>
+                    <h4 class="house-cell__block-title" on-click={clickTitle}>{houseName}</h4>
                     {renderBlock()}
                 </div>
                 <div class="house-cell__symbol">
