@@ -1,0 +1,54 @@
+/* 多个布局公用样式 */
+.unit-render-wrap {
+  overflow: hidden;
+}
+
+.unit-cell-wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* table布局样式*/
+.unit-table-render {
+  .building-td__header,
+  .building-td__unit,
+  .building-td__gutter {
+    @include primary-cell;
+  }
+
+  .building-td__unit {
+    height: 1px;
+  }
+}
+
+/* flex布局样式 */
+.unit-flex-render {
+  display: flex;
+
+  .unit-flex__content {
+    flex: 1;
+    display: flex;
+  }
+
+  .building-unit-wrap {
+    flex: 1;
+    display: flex;
+  }
+
+  .building-fd__header,
+  .building-fd__unit,
+  .building-fd__gutter {
+    @include primary-cell;
+    height: var(--ufr-unit-height);
+  }
+
+  .building-fd__header {
+    width: var(--ufr-floor-width);
+  }
+
+  .building-fd__unit {
+    flex: 1;
+  }
+}

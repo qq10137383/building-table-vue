@@ -1,0 +1,44 @@
+.building-table-wrap {
+  position: relative;
+  overflow: hidden;
+
+  .building-table__content {
+    position: relative;
+
+    &.has-legend {
+      .building-table__content-left {
+        margin-right: $legend-width + 5px;
+      }
+
+      .building-table__content-right {
+        width: $legend-width;
+        display: block;
+      }
+    }
+  }
+
+  .building-table__content-left {
+    overflow: hidden;
+  }
+
+  .building-table__content-right {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: none;
+  }
+
+  .building-table__tip,
+  .building-table__empty {
+    border: 1px solid $border-color;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .building-table__empty {
+    margin: 3px 0 0 2px;
+  }
+}

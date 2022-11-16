@@ -1,0 +1,19 @@
+$primary-color: #a3d5f6;
+$primary-color--dark1: #669aff;
+$primary-color--dark2: #275cc4;
+$reverse-color: #fff;
+$background-color: #fff;
+$background-color--dark1: #f0f0f0;
+$border-color: #d2d2d2;
+$font-color: #333;
+
+$font-size: 14px;
+$font-size--small: 12px;
+$font-size--large: 16px;
+
+$header-height: 40px;
+$legend-width: 135px;
+
+:export {
+    headerHeight: $header-height;
+}
