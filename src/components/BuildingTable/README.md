@@ -123,10 +123,10 @@
 
 单元格状态控制：
 
-- 单元格被选中时外层 td 会增加 `td-selected` 样式
-- 单元格定位高亮时外层 td 会增加 `td-highlight` 样式
+- 单元格被选中时外层 td 会增加 `house-selected` 样式
+- 单元格定位高亮时外层 td 会增加 `house-highlight` 样式
 
-为了不处理这些状态，可以在自定义模板根元素上增加样式 `house-display-wrap`
+为了不处理这些状态，可以在自定义模板根元素上增加样式 `house-cell-wrap`
 
 3、自定义单元、楼层
 
