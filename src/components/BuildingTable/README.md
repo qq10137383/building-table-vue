@@ -91,7 +91,7 @@
   <!-- 仅显示房号 -->
   <house-definition :width="70">
     <template slot-scope="scope">
-      <div class="house-display-wrap">{{ scope.houseInfo.houseName }}</div>
+      <div class="house-cell-wrap">{{ scope.houseInfo.houseName }}</div>
     </template>
   </house-definition>
 </building-table>
