@@ -7,11 +7,11 @@
       @select-change="selectChange"
     >
       <!-- 单元单元格配置定义，如需要完全自定义单元单元格内容模板，使用slot-scope -->
-      <unit-definition>
+      <!-- <unit-definition>
         <template slot-scope="scope">
           <div class="unit">{{ scope.unitInfo.unitName }}</div>
         </template>
-      </unit-definition>
+      </unit-definition> -->
       <!-- 楼层单元格配置定义，如需要完全自定义楼层单元格内容模板，使用slot-scope -->
       <!-- <floor-definition>
         <template slot-scope="scope">
@@ -19,11 +19,11 @@
         </template>
       </floor-definition> -->
       <!-- 房屋单元格配置定义，如需要完全自定义房屋单元格内容模板，使用slot-scope -->
-      <house-definition :excludeFields="excludeFields" :simple="true">
-        <!-- <template slot-scope="scope">
+      <!-- <house-definition :excludeFields="excludeFields">
+        <template slot-scope="scope">
           <div class="house-cell-wrap">{{ scope.houseInfo.houseName }}</div>
-        </template> -->
-      </house-definition>
+        </template>
+      </house-definition> -->
       <!-- 自定义标题栏左侧工具栏 -->
       <!-- <template v-slot:headerLeft>
         <div class="building-tool">left-slot</div>
@@ -32,7 +32,8 @@
       <!-- <template v-slot:headerRight>
         <div class="building-tool">right-slot</div>
       </template> -->
-      <house-tooltip>
+      <!-- tooltip组件 -->
+      <!-- <house-tooltip>
         <template slot-scope="house">
           <ul>
             <li>房号{{ house.houseName }}</li>
@@ -40,27 +41,27 @@
             <li>权利人：{{ house.houseName }}</li>
           </ul>
         </template>
-      </house-tooltip>
+      </house-tooltip> -->
     </building-table>
   </div>
 </template>
 
 <script>
 import BuildingTable, {
-  UnitDefinition,
+ // UnitDefinition,
   // FloorDefinition,
-  HouseDefinition,
-  HouseTooltip,
+  //HouseDefinition,
+ // HouseTooltip,
 } from "@/components/BuildingTable";
 
 export default {
   name: "BuildingTableDemo",
   components: {
     BuildingTable,
-    UnitDefinition,
+   // UnitDefinition,
     // FloorDefinition,
-    HouseDefinition,
-    HouseTooltip,
+   // HouseDefinition,
+   // HouseTooltip,
   },
   data() {
     return {

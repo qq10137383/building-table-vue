@@ -13,7 +13,7 @@ const floorConfig = {
   // 是否显示楼层选择按钮
   showCheck: true,
   // 用来显示楼层字段名
-  titleField: 'name',
+  titleField: 'layer',
   // 楼层默认渲染函数
   render: function(h, { definition, logicBuildId, floorInfo, unitInfo, store }) {
     const { className, floorStyle, titleField, showCheck } = definition

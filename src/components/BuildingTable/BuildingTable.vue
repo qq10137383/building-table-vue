@@ -73,7 +73,7 @@ export default {
     renderMode: {
       type: String,
       validator: (val) => ["table", "flex"].includes(val),
-      default: "flex",
+      default: "table",
     },
     // 是否显示标题
     showTitle: {
