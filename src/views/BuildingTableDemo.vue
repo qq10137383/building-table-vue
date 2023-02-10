@@ -47,21 +47,20 @@
 </template>
 
 <script>
-import BuildingTable, {
- // UnitDefinition,
-  // FloorDefinition,
-  //HouseDefinition,
- // HouseTooltip,
-} from "@/components/BuildingTable";
+import BuildingTable from // UnitDefinition,
+// FloorDefinition,
+//HouseDefinition,
+// HouseTooltip,
+"@/components/BuildingTable";
 
 export default {
   name: "BuildingTableDemo",
   components: {
     BuildingTable,
-   // UnitDefinition,
+    // UnitDefinition,
     // FloorDefinition,
-   // HouseDefinition,
-   // HouseTooltip,
+    // HouseDefinition,
+    // HouseTooltip,
   },
   data() {
     return {
@@ -73,8 +72,20 @@ export default {
     // 创建测试数据
     let data = this.createTestData();
     // 测试跨多层
-    data.logicBuilds[0].houses[0].layerCount = 3;
-    data.logicBuilds[0].houses[0].columnCount = 2;
+    // data.logicBuilds[0].houses[0].columnCount = 2;
+    // data.logicBuilds[0].houses[0].layerCount = 2;
+    // const house = data.logicBuilds[0].houses.find(m=>m.houseName === '403')
+    // house.layerCount = 2
+
+    // const house1 = data.logicBuilds[0].houses.find(m=>m.houseName === '502')
+    // house1.columnCount = 2
+
+    // const idx = data.logicBuilds[0].houses.findIndex(m=>m.houseName === '303')
+    //  data.logicBuilds[0].houses.splice(idx,1)
+    //  const idx1 = data.logicBuilds[0].houses.findIndex(m=>m.houseName === '504')
+    //  data.logicBuilds[0].houses.splice(idx1,1)
+
+    // data.logicBuilds[0].houses[0].columnCount = 2;
     // 加载数据
     // this.$refs.buildingTable.setData(jsonData.data);
     this.buildingData = data;
@@ -151,7 +162,7 @@ export default {
         unitName: `${j + 1}单元`,
         // 单元排序号
         unitOrder: j + 1,
-        // 占有楼层
+        // 占有楼层，跨层方向是从上往下的，比如201如果跨两层则会占用101的位置，101跨两层则会占用-101，0层会自动跳过
         layerCount: 1,
         // 起始楼层
         minAtLayer: i + 1,

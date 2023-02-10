@@ -50,13 +50,18 @@ export default {
     },
   },
   updated() {
-    this.setLayout();
+    this.doLayout();
   },
   mounted() {
-    this.setLayout();
+    this.doLayout();
   },
   methods: {
-    // 设置楼盘表内容区域布局参数
+    // 重新布局
+    doLayout() {
+      this.setLayout();
+      this.setEmptyFloorsHeight();
+    },
+    // 设置楼盘表内容区域布局参数和空楼层高度
     setLayout() {
       const hasGutter = this.$el.scrollHeight > this.$el.clientHeight;
       const scrollLeft = this.$el.scrollLeft;
@@ -64,6 +69,15 @@ export default {
         hasGutter,
         scrollLeft,
       });
+      this.setEmptyFloorsHeight();
+    },
+    // 设置空楼层高度(空楼层没有单元格支撑高度，需要从其他行高度设置)
+    setEmptyFloorsHeight() {
+      const emptyRow = this.$el.querySelector("tbody>tr[data-empty]");
+      const firstRow = this.$el.querySelector("tbody>tr:not([data-empty])");
+      if (emptyRow && firstRow) {
+        emptyRow.style.height = `${firstRow.clientHeight}px`;
+      }
     },
     // 同步楼盘表内容区域滚动参数
     handleScroll(e) {
@@ -240,9 +254,12 @@ export default {
     renderBody() {
       return this.houses.map((floor, index) => {
         const { layer } = this.floors[index];
+        // 判断是否是空楼层空楼层需要填充高度
+        const isEmpty = !floor.some((unit) => unit.some(Boolean));
         return (
           <tr
             key={`tr-floor-${this.logicBuildId}-${layer}`}
+            data-empty={isEmpty}
             class="building-tr_floor"
           >
             {this.renderRow(floor, index)}

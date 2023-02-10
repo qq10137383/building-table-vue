@@ -78,11 +78,8 @@ export default class BaseBuilder {
         let layer
         for (let i = 0; i < layerCount; i++) {
             // 处理楼层为负数的(地下室)，跳过0层
-            if (minAtLayer < 0) {
-                layer = (minAtLayer + i) >= 0 ? (minAtLayer + i + 1) : (minAtLayer + i)
-            } else {
-                layer = (minAtLayer + i)
-            }
+            layer = minAtLayer - i
+            layer = layer === 0 ? layer - 1: layer
             fn(layer, minAtLayer, layerCount)
         }
     }

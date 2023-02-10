@@ -20,9 +20,8 @@ export default class TableBuilder extends BaseBuilder {
         })
         // 2、填充房屋
         for (const house of houses) {
-            const { unitName, minAtLayer, layerCount, columnCount } = house
-            // 跨层的房屋需要将起始楼层上移(layerCount)，因为表格colspan是从上往下的，楼层却是从下往上
-            const layerIndex = house._layerIndex = layerMap[minAtLayer].index - layerCount + 1
+            const { unitName, minAtLayer, columnCount } = house
+            const layerIndex = house._layerIndex = layerMap[minAtLayer].index
             const unitIndex = house._unitIndex = unitMap[unitName].index
             // 填充房屋到指定楼层、单元位置
             houseList[layerIndex][unitIndex].push(house)
