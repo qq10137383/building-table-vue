@@ -6,7 +6,7 @@
     margin-left: 16px;
   }
 
-  &:not(:last-child):after {
+  &:not(:last-child)::after {
     content: " ";
     position: absolute;
     top: 10px;
