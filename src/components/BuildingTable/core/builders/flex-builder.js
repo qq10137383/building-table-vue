@@ -22,10 +22,11 @@ export default class FlexBuilder extends BaseBuilder {
             // 填充房屋到指定楼层、单元位置
             houseList[layerIndex][unitIndex].push(house)
         }
-        // 3、排列房屋在单元中的位置
+        // 3、排列房屋在单元中的位置，增加列索引信息
         for (const layer of houseList) {
             layer.forEach((unit) => {
                 unit.sort((m, n) => this.compareHouse(m, n))
+                unit.forEach((house, index) => (house._columnIndex = index))
             })
         }
         return houseList
