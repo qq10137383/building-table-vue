@@ -81,13 +81,10 @@ export default class HouseQuery {
       const { minAtLayer, layerCount } = house
       const layers = []
       let layer
-      // 处理跨层的房屋
+      // 处理楼层为负数的(地下室)，跳过0层
       for (let i = 0; i < layerCount; i++) {
-        if (minAtLayer < 0) {
-          layer = (minAtLayer + i) >= 0 ? (minAtLayer + i + 1) : (minAtLayer + i)
-        } else {
-          layer = (minAtLayer + i)
-        }
+        layer = minAtLayer - i
+        layer = layer === 0 ? layer - 1 : layer
         layers.push(layer)
       }
       if (layers.includes(layerInfo.layer)) {
