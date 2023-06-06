@@ -220,6 +220,9 @@ export default {
           on-mouseout={($event) =>
             this.raiseHouseEvent("house-out", house, $event)
           }
+          on-mousemove={($event) =>
+            this.raiseHouseEvent("house-move", house, $event)
+          }
           on-contextmenu={($event) =>
             this.raiseHouseEvent("house-contextmenu", house, $event)
           }

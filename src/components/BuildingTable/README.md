@@ -185,7 +185,8 @@
 | house-title-click  | 房号点击事件               | house,MouseEvent             |
 | house-click        | 房屋单元格点击事件         | house,MouseEvent             |
 | house-dbclick      | 房屋单元格双击事件         | house,MouseEvent             |
-| house-over         | 房屋单元格鼠标经过事件     | house,MouseEvent             |
+| house-over         | 房屋单元格鼠标进入事件     | house,MouseEvent             |
+| house-move         | 房屋单元格鼠标移动事件     | house,MouseEvent             |
 | house-out          | 房屋单元格鼠标离开事件     | house,MouseEvent             |
 | house-contextmenu  | 房屋单元格鼠标右键菜单事件 | house,MouseEvent             |
 | logic-build-change | 逻辑幢改变事件             | logicBuildId                 |
@@ -280,6 +281,13 @@
 ## HouseTooltip 组件说明
 
 用来显示房屋单元格的 tooltip，可以使用 `slot-scope template` 自定义模板，传入的 `scope` 参数为 house
+
+### HouseTooltip 属性
+
+| 参数          | 说明                                      | 类型           | 默认值 | 可选值 |
+| ------------- | ----------------------------------------- | -------------- | ------ | ------ |
+| delayTime     | 延时显示tooltip时间(毫秒)                  | Number         | 500    |        |
+
 
 ```html
 <building-table :height="600" :buildingData="buildingData">

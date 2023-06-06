@@ -19,7 +19,9 @@ const props = {
   // 每行显示几个房屋符号(symbol)，默认：3
   symbolColumn: Number,
   // 是否以精简模式显示
-  simple: Boolean
+  simple: Boolean,
+  // 是否显示单元格提示信息
+  showTitle: Boolean,
 }
 
 /**

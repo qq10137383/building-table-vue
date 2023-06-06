@@ -22,9 +22,11 @@ const houseConfig = {
   symbolColumn: 3,
   // 是否以精简模式显示
   simple: false,
+  // 是否显示单元格提示信息
+  showTitle: false,
   // 房屋单元格默认渲染函数
   render: function (h, { definition, houseInfo }) {
-    const { className, houseStyle, showBlock, includeFields, excludeFields, showSymbol, symbolColumn, simple } = definition
+    const { className, houseStyle, showBlock, includeFields, excludeFields, showSymbol, symbolColumn, simple, showTitle } = definition
     const { houseName, blocks, symbols, customClasses = [] } = houseInfo
     const root = getBuildingTable(this)
 
@@ -39,7 +41,7 @@ const houseConfig = {
           (excludeFields && excludeFields.includes(name))
         )) {
           const text = `${name}：${value}`
-          blockVNodes.push(<p class='house-cell__block-item' title={text}>{text}</p>)
+          blockVNodes.push(<p class='house-cell__block-item' title={showTitle ? text : ''}>{text}</p>)
         }
       })
       return blockVNodes
