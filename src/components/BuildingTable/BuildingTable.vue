@@ -46,7 +46,7 @@ export default {
     // 楼盘表自定义样式
     tableStyle: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
     // 楼盘表高度
     height: {
@@ -56,7 +56,7 @@ export default {
     // 楼盘表数据
     buildingData: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
     // 当前逻辑幢ID，为空时加载第一个逻辑幢
     logicBuildId: {
@@ -135,7 +135,13 @@ export default {
       if (data) {
         this.store.commit("setData", data);
         this.store.commit("setLogicBuild", this.logicBuildId);
+      } else {
+        this.clearData()
       }
+    },
+    // 清除数据源
+    clearData() {
+      this.store.commit("clearData");
     },
     // 获取楼盘表选择的房屋(onlyId为true时仅返回房屋ID集合，否则返回房屋集合)
     getSelections(onlyId = false) {

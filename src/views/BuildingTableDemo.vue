@@ -1,11 +1,7 @@
 <template>
   <div class="building-table-demo">
-    <building-table
-      :buildingData="buildingData"
-      @house-click="houseClick"
-      @house-title-click="houseTitleClick"
-      @select-change="selectChange"
-    >
+    <building-table :buildingData="buildingData" @house-click="houseClick" @house-title-click="houseTitleClick"
+      @select-change="selectChange">
       <!-- 单元单元格配置定义，如需要完全自定义单元单元格内容模板，使用slot-scope -->
       <!-- <unit-definition>
         <template slot-scope="scope">
@@ -33,7 +29,7 @@
         <div class="building-tool">right-slot</div>
       </template> -->
       <!-- tooltip组件 -->
-      <!-- <house-tooltip>
+      <house-tooltip>
         <template slot-scope="house">
           <ul>
             <li>房号{{ house.houseName }}</li>
@@ -41,17 +37,17 @@
             <li>权利人：{{ house.houseName }}</li>
           </ul>
         </template>
-      </house-tooltip> -->
+      </house-tooltip>
     </building-table>
   </div>
 </template>
 
 <script>
-import BuildingTable from // UnitDefinition,
+import BuildingTable // UnitDefinition,
 // FloorDefinition,
 //HouseDefinition,
-// HouseTooltip,
-"@/components/BuildingTable";
+, { HouseTooltip }
+  from "@/components/BuildingTable";
 
 export default {
   name: "BuildingTableDemo",
@@ -60,7 +56,7 @@ export default {
     // UnitDefinition,
     // FloorDefinition,
     // HouseDefinition,
-    // HouseTooltip,
+    HouseTooltip,
   },
   data() {
     return {

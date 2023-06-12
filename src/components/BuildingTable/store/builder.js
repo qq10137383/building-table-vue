@@ -29,6 +29,12 @@ export default {
         this.states.logicBuild = this._builder.build(logicId)
       }
     },
+    // 清空逻辑幢
+    clearBuilder() {
+      this.logicInfos = []
+      this.states.logicBuild = createLogicData()
+      this.states.builderType = ''
+    },
     // 设置构建器类型
     setBuilerType(type) {
       this.states.builderType = type;

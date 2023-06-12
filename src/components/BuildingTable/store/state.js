@@ -53,6 +53,12 @@ export default Vue.extend({
       // 更新计数器
       this.states.dataKey++;
     },
+    // 清除楼盘表数据
+    clearData() {
+      const data = { ...basicStates, logicBuilds: [] }
+      this.setData(data)
+      this.clearBuilder()
+    },
     // 加载逻辑幢，logincId为空时加载第一个逻辑幢
     setLogicBuild(logicId) {
       this._query.setLogicId(logicId)
