@@ -13,13 +13,23 @@
 /* table布局样式*/
 .unit-table-render {
   .building-td__header,
-  .building-td__unit,
-  .building-td__gutter {
+  .building-td__unit {
     @include primary-cell;
+    height: 1px;
   }
 
-  .building-td__unit {
+  .building-td__gutter {
+    padding-left: 1px;
     height: 1px;
+    background-color: $primary-color;
+    border-radius: 2px;
+  }
+
+  .unit-cell-wrap {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

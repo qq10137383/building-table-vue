@@ -63,7 +63,8 @@ export default {
     },
     // 设置楼盘表内容区域布局参数和空楼层高度
     setLayout() {
-      const hasGutter = this.$el.scrollHeight > this.$el.clientHeight;
+      const hasGutter = this.tableWidth >= this.$el.clientWidth
+        && this.$el.scrollHeight > this.$el.clientHeight;
       const scrollLeft = this.$el.scrollLeft;
       this.store.commit("setLayout", {
         hasGutter,

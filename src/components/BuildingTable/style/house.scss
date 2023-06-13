@@ -66,8 +66,9 @@
   }
 
   .house-cell__block-title {
-    text-decoration: underline;
     display: inline-block;
+    max-width: 100%;
+    text-decoration: underline;
   }
 
   .house-cell__block-item {
@@ -100,7 +101,10 @@
 }
 
 .floor-cell-wrap {
-  padding-right: 3px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* table布局样式*/
@@ -112,6 +116,7 @@
 
   .building-td__floor {
     @include primary-cell;
+    height: 1px;
   }
 
   .building-td__house {

@@ -19,7 +19,7 @@ export default {
     // 延时显示tooltip时间(毫秒)
     delayTime: {
       type: Number,
-      default: 500
+      default: 1000
     }
   },
   data() {
@@ -103,7 +103,7 @@ export default {
         this.house = house;
         this.show = true;
         this.adjustEdge();
-      }, this.delayTime || 500)
+      }, this.delayTime)
     },
     updateTooltip(house) {
       this.hoverState.current = house;

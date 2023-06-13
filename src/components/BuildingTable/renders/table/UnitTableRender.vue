@@ -97,7 +97,9 @@ export default {
             rowspan='1'
             colspan='1'
             class='building-td__header'
-          ></td>
+          >
+            <div class="cell-fill"></div>
+          </td>
         )
         rowVNodes.push(this.renderUnitCell(unitInfo))
       })
@@ -109,7 +111,9 @@ export default {
             rowspan='1'
             colspan='1'
             class='building-td__gutter'
-          />
+          >
+            <div class="cell-fill"></div>
+          </td>
         )
       }
       return rowVNodes
