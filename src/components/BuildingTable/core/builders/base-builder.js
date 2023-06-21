@@ -1,3 +1,5 @@
+import { val } from '../../utils'
+
 /**
  * 生成逻辑幢数据
  * @param {Object} options 
@@ -25,15 +27,15 @@ export default class BaseBuilder {
     // 房屋数据兼容处理
     transformHouse(house) {
         house.houseName = house.houseName || house.houseNo || '' // 房屋名称
-        house.unitOrder = Number(house.unitOrder || 1) // 单元序号
-        house.unitName = house.unitName || `${house.unitOrder}单元` // 单元名称
-        house.minAtLayer = Number(house.minAtLayer || 1) // 起始楼层
-        house.layerName = house.layerName || `${house.minAtLayer}层` // 楼层名称
+        house.unitOrder = Number(val(house, 'unitOrder', 1)) // 单元序号
+        house.unitName = val(house, 'unitName', '') // 单元名称
+        house.minAtLayer = Number(val(house, 'minAtLayer', 1)) // 起始楼层
+        house.layerName = house.layerName || `${house.minAtLayer}` // 楼层名称
         house.layerCount = Number(house.layerCount || 1) // 占有楼层数(纵向)
         house.columnCount = Number(house.columnCount || 1) // 占用房间数(横向)
         house.order = Number(house.order || 1) // 排序号
-        house.isEnabled = Boolean('isEnabled' in house ? house.isEnabled : true) // 是否可操作
-        house.isSelected = Boolean('isSelected' in house ? house.isSelected : false) // 是否已选中
+        house.isEnabled = Boolean(val(house, 'isEnabled', true)) // 是否可操作
+        house.isSelected = Boolean(val(house, 'isSelected', false)) // 是否已选中
         house.symbols = house.symbols || [] // 色块符号信息
         house.blocks = house.blocks || [] // 字段显示信息
     }
@@ -79,7 +81,7 @@ export default class BaseBuilder {
         for (let i = 0; i < layerCount; i++) {
             // 处理楼层为负数的(地下室)，跳过0层
             layer = minAtLayer - i
-            layer = layer === 0 ? layer - 1: layer
+            layer = layer === 0 ? layer - 1 : layer
             fn(layer, minAtLayer, layerCount)
         }
     }

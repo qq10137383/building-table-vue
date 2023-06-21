@@ -13,7 +13,7 @@ export function parsePath(path) {
     return
   }
   const segments = path.split('.')
-  return function(obj) {
+  return function (obj) {
     for (var i = 0; i < segments.length; i++) {
       if (!obj) return
       obj = obj[segments[i]]
@@ -106,4 +106,15 @@ export function getBuildingTable(vm) {
   } else {
     return getBuildingTable(vm.$parent)
   }
+}
+
+/**
+ * 获取属性值
+ * @param {Object} obj 
+ * @param {String} key 
+ * @param {any} defaultValue 
+ * @returns 
+ */
+export function val(obj, key, defaultValue) {
+  return key in obj ? obj[key] : defaultValue
 }

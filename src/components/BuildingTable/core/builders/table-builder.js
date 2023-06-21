@@ -41,7 +41,7 @@ export default class TableBuilder extends BaseBuilder {
                 }
                 // 单元内房屋排序，增加列索引信息
                 unit.sort((m, n) => this.compareHouse(m, n))
-                unit.forEach((house, index) => (house._columnIndex = index))
+                unit.forEach((house, index) => (house && (house._columnIndex = index)))
                 delete unit._houseCount
             })
         }

@@ -27,7 +27,7 @@ const houseConfig = {
   // 房屋单元格默认渲染函数
   render: function (h, { definition, houseInfo }) {
     const { className, houseStyle, showBlock, includeFields, excludeFields, showSymbol, symbolColumn, simple, showTitle } = definition
-    const { houseName, blocks, symbols, customClasses = [] } = houseInfo
+    const { houseNo, houseName, blocks, symbols, customClasses = [] } = houseInfo
     const root = getBuildingTable(this)
 
     const renderBlock = () => {
@@ -71,7 +71,7 @@ const houseConfig = {
     return (
       <div class={['house-cell-wrap', className, ...customClasses]} style={houseStyle}>
         <div class='house-cell__block'>
-          <h4 class='house-cell__block-title' on-click={clickTitle}>{houseName}</h4>
+          <h4 class='house-cell__block-title' on-click={clickTitle} title={houseName}>{houseNo}</h4>
           {renderBlock()}
         </div>
         <div class='house-cell__symbol'>

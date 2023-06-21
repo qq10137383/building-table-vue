@@ -26,7 +26,7 @@ export default class FlexBuilder extends BaseBuilder {
         for (const layer of houseList) {
             layer.forEach((unit) => {
                 unit.sort((m, n) => this.compareHouse(m, n))
-                unit.forEach((house, index) => (house._columnIndex = index))
+                unit.forEach((house, index) => (house && (house._columnIndex = index)))
             })
         }
         return houseList
