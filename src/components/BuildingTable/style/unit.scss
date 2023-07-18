@@ -12,6 +12,10 @@
 
 /* table布局样式*/
 .unit-table-render {
+  .unit-table {
+    table-layout: fixed;
+  }
+
   .building-td__header,
   .building-td__unit {
     @include primary-cell;

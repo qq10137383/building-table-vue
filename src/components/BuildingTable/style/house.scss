@@ -109,6 +109,10 @@
 
 /* table布局样式*/
 .house-table-render {
+  .house-table {
+    table-layout: fixed;
+  }
+  
   .building-td__floor,
   .building-td__house {
     background-color: $background-color;
