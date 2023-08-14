@@ -21,6 +21,7 @@ import { toColor } from "./utils";
  */
 export default {
   name: "BuildingLegend",
+  inject: ["store"],
   computed: {
     ...mapStates({
       legends: "legends",

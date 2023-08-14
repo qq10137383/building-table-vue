@@ -15,24 +15,14 @@ State.prototype.commit = function(name, ...payload) {
   }
 }
 
-let store
-
 /**
  * 创建store
  * @param {Object} initialState 初始状态
  * @returns
  */
 export function createStore(initialState = {}) {
-  store = new State()
+  const store = new State()
   deepAssign(store.states, initialState)
-  return store
-}
-
-/**
- * 获取store
- * @returns
- */
-export function getStore() {
   return store
 }
 
@@ -48,11 +38,11 @@ export function mapStates(mapper) {
     if (typeof value === 'string') {
       fn = function() {
         const observe = parsePath(value)
-        return observe(store.states)
+        return observe(this.store.states)
       }
     } else if (typeof value === 'function') {
       fn = function() {
-        return value.call(this, store.states)
+        return value.call(this, this.store.states)
       }
     }
     if (fn) {
