@@ -47,27 +47,13 @@ export default class BaseBuilder {
         if (!ln) return 1
         if (!rn) return -1
 
-        // 2、比较层 层越高，房屋越大
-        if (ln.minAtLayer > rn.minAtLayer) return 1
-        if (ln.minAtLayer < rn.minAtLayer) return -1
-
-        // 3、比较单元排序号，单元排序号越大，房屋越大
-        if ('unitOrder' in ln && 'unitOrder' in rn) {
-            if (ln.unitOrder > rn.unitOrder) return 1
-            if (ln.unitOrder < rn.unitOrder) return -1
-        }
-
-        // 4、比较单元名称，单元越大，房屋越大
-        if (ln.unitName > rn.unitName) return 1
-        if (ln.unitName < rn.unitName) return -1
-
-        // 5、比较排序号，排序号越大，房屋越大
+        // 2、比较排序号，排序号越大，房屋越大
         if ('order' in ln && 'order' in rn) {
             if (ln.order > rn.order) return 1
             if (ln.order < rn.order) return -1
         }
 
-        // 6、比较房号，房号越大，房屋越大
+        // 3、比较房号，房号越大，房屋越大
         if (ln.houseNo > rn.houseNo) return 1
         if (ln.houseNo < rn.houseNo) return -1
 
