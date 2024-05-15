@@ -259,7 +259,9 @@ export default {
       return this.houses.map((floor, index) => {
         const { layer } = this.floors[index];
         // 判断是否是空楼层空楼层需要填充高度
-        const isEmpty = !floor.some((unit) => unit.some(Boolean));
+        const isEmpty = !floor.some(unit =>
+          unit.some(m => Boolean(m && m.layerCount == 1))
+        );
         return (
           <tr
             key={`tr-floor-${this.logicBuildId}-${layer}`}
