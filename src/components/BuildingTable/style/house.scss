@@ -113,6 +113,12 @@
     table-layout: fixed;
   }
   
+  .house-cell__block {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
   .building-td__floor,
   .building-td__house {
     background-color: $background-color;

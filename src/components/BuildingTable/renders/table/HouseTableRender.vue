@@ -50,17 +50,12 @@ export default {
     },
   },
   updated() {
-    this.doLayout();
+    this.setLayout();
   },
   mounted() {
-    this.doLayout();
+    this.setLayout();
   },
   methods: {
-    // 重新布局
-    doLayout() {
-      this.setLayout();
-      this.setEmptyFloorsHeight();
-    },
     // 设置楼盘表内容区域布局参数和空楼层高度
     setLayout() {
       const hasGutter = this.tableWidth >= this.$el.clientWidth
@@ -70,15 +65,22 @@ export default {
         hasGutter,
         scrollLeft,
       });
-      this.setEmptyFloorsHeight();
+      this.setFloorsHeight();
     },
-    // 设置空楼层高度(空楼层没有单元格支撑高度，需要从其他行高度设置)
-    setEmptyFloorsHeight() {
-      const emptyRow = this.$el.querySelector("tbody>tr[data-empty]");
-      const firstRow = this.$el.querySelector("tbody>tr:not([data-empty])");
-      if (emptyRow && firstRow) {
-        emptyRow.style.height = `${firstRow.clientHeight}px`;
-      }
+    // 设置楼层高度(空楼层、跨行楼层没有单元格支撑高度，需要从其他行高度设置)
+    setFloorsHeight() {
+      const heights = Array.from(this.$el.querySelectorAll("tbody>tr")).map(
+        (m) => m.clientHeight
+      );
+      if (heights.length == 0) return;
+      // 计算出最大层高，将小于最大层高的楼层设为最大层高
+      const maxHeight = Math.max.apply(null, heights);
+      heights.forEach((h, index) => {
+        if (h != maxHeight) {
+          const row = this.$el.querySelector(`tbody>:nth-child(${index + 1})`);
+          row && (row.style.height = `${maxHeight}px`);
+        }
+      });
     },
     // 同步楼盘表内容区域滚动参数
     handleScroll(e) {

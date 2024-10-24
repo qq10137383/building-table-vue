@@ -68,10 +68,10 @@ export default {
     // 创建测试数据
     let data = this.createTestData();
     // 测试跨多层
-    // data.logicBuilds[0].houses[0].columnCount = 2;
-    // data.logicBuilds[0].houses[0].layerCount = 2;
-    // const house = data.logicBuilds[0].houses.find(m=>m.houseName === '403')
-    // house.layerCount = 2
+    data.logicBuilds[0].houses[0].columnCount = 2;
+    data.logicBuilds[0].houses[0].layerCount = 2;
+    const house = data.logicBuilds[0].houses.find(m=>m.houseName === '403')
+    house.layerCount = 2
 
     // const house1 = data.logicBuilds[0].houses.find(m=>m.houseName === '502')
     // house1.columnCount = 2
