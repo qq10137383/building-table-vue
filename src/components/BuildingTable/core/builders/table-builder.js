@@ -4,10 +4,7 @@ import BaseBuilder from "./base-builder";
  * Table布局楼盘表逻辑幢构建器
  */
 export default class TableBuilder extends BaseBuilder {
-    spanData = { // 跨楼层数据
-        indexes: {},
-        layers: {}
-    }
+    spanData = []  // 跨楼层数据
 
     // 构建房屋(楼层倒序排列)
     buildHouses(layerInfo, unitInfo) {
@@ -22,6 +19,14 @@ export default class TableBuilder extends BaseBuilder {
                 unit._houseCount = 0
                 return unit
             })
+        })
+        // 跨层数据
+        this.spanData = unitList.map(() => {
+            return {
+                indexes: new Set(),  // 跨层楼层索引
+                layers: {}, // 跨层原始层房屋
+                grids: []  // 跨层行列信息
+            }
         })
         // 2、填充房屋
         for (let house of houses) {
@@ -38,11 +43,9 @@ export default class TableBuilder extends BaseBuilder {
             })
             // 构造跨层数据
             if (layerCount > 1) {
-                const indexKey = `${layerIndex}&${unitIndex}`
-                const layerKey = `${minAtLayer}&${unitIndex}`
-                const indexes = this.spanData.indexes[indexKey] || (this.spanData.indexes[indexKey] = new Set());
-                indexes.add(layerKey)
-                this.spanData.layers[layerKey] = this.spanData.layers[layerKey] || []
+                const unitSpan = this.spanData[house._unitIndex]
+                unitSpan.indexes.add(layerIndex)
+                unitSpan.layers[minAtLayer] = unitSpan.layers[minAtLayer] || []
             }
         }
         // 3、单元填充平衡
@@ -63,14 +66,15 @@ export default class TableBuilder extends BaseBuilder {
             })
         }
         // 4、单元排序
-        Object.values(this.spanData.layers).forEach(houses => {
-            // 跨层原始层房屋排序
-            houses.sort((m, n) => this.compareHouse(m, n))
+        this.spanData.forEach((unitSpan) => {
+            Object.values(unitSpan.layers).forEach(houses => {
+                // 跨层原始层房屋排序
+                houses.sort((m, n) => this.compareHouse(m, n))
+            })
         })
         houseList.forEach((layer, layerIndex) => {
             layer.forEach((unit, unitIndex) => {
-                const indexKey = `${layerIndex}&${unitIndex}`
-                if (this.spanData.indexes[indexKey]) {
+                if (this.spanData[unitIndex].indexes.has(layerIndex)) {
                     this.sortSpanHouse(unit)
                 } else {
                     unit.sort((m, n) => this.compareHouse(m, n))
@@ -87,9 +91,21 @@ export default class TableBuilder extends BaseBuilder {
         // 1、排列跨层房屋位置，与在原始层位置保持一致
         unit.forEach(house => {
             if (house && house.layerCount > 1) {
-                const layerKey = `${house.minAtLayer}&${house._unitIndex}`
-                const spanIndex = this.spanData.layers[layerKey].indexOf(house)
+                const layerIndex = house._layerIndex
+                const unitSpan = this.spanData[house._unitIndex]
+                // 层位置 = 初始位置 - 其他房屋跨行导致的偏移量
+                const initialIndex = unitSpan.layers[house.minAtLayer].indexOf(house)
+                const spanGrids = unitSpan.grids.filter(m => {
+                    return m.rowStart < layerIndex && m.rowEnd >= layerIndex && m.column < initialIndex
+                });
+                const spanIndex = initialIndex - spanGrids.length
                 spanHouses[spanIndex] = house
+                // 记录到跨层行列信息
+                unitSpan.grids.push({
+                    rowStart: layerIndex,
+                    rowEnd: layerIndex + house.layerCount - 1,
+                    column: spanIndex,
+                })
             }
         })
         // 2、排列非跨层房屋位置，排除跨层房屋后按顺序排放
