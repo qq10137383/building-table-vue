@@ -54,8 +54,8 @@ export default class TableBuilder extends BaseBuilder {
                 // 填充跨层数据
                 unit.forEach(house => {
                     const { minAtLayer, _unitIndex } = house
-                    const layerKey = `${minAtLayer}&${_unitIndex}`
-                    this.spanData.layers[layerKey] && this.spanData.layers[layerKey].push(house)
+                    const layerHouses = this.spanData[_unitIndex].layers[minAtLayer]
+                    layerHouses && layerHouses.push(house)
                 })
                 // 计算需要填充的空白房屋(null)的数量，并填充
                 const remain = unitList[unitIndex].columnCount - unit._houseCount
