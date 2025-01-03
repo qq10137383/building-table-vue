@@ -1,20 +1,39 @@
 <template>
-  <div :class="['building-table-wrap', className]" :style="tableStyle">
+  <div
+    :class="['building-table-wrap', className, { 'no-data': !logicBuild.id }]"
+    :style="wrapStyle"
+  >
     <div v-if="logicBuild.id" class="building-table__visual">
-      <div class="building-table__header">
+      <div class="building-table__header" v-if="showHeader">
         <building-header :show-title="showTitle" :tools="tools" />
       </div>
-      <div :class="['building-table__content', { 'has-legend': showLegends }]">
+      <div class="building-table__content">
         <div class="building-table__content-left">
           <building-render />
         </div>
         <div class="building-table__content-right">
-          <building-legend />
+          <building-sidebar
+            v-if="showSidebar"
+            :sidebar-panels="sidebarPanels"
+            :active-panel="activePanel"
+          />
         </div>
       </div>
     </div>
-    <div v-else class="building-table__tip" :style="{ height: `${height}px` }">
+    <div
+      v-else
+      class="building-table__tip"
+      :style="{ height: `${layout.height}px` }"
+    >
       {{ tipText }}
+    </div>
+    <div class="building-table__footer" v-if="showFooter">
+      <building-statistic
+        v-if="statisticData"
+        :statistic-data="statisticData"
+        :max-column="statisticMaxColumn"
+      />
+      <slot name="footer" />
     </div>
     <slot />
   </div>
@@ -24,7 +43,8 @@
 import { createStore, mapStates } from "./store";
 import BuildingHeader from "./BuildingHeader";
 import BuildingRender from "./renders";
-import BuildingLegend from "./BuildingLegend";
+import BuildingSidebar from "./BuildingSidebar";
+import BuildingStatistic from "./BuildingStatistic";
 
 /**
  * 楼盘表控件
@@ -35,7 +55,8 @@ export default {
   components: {
     BuildingHeader,
     BuildingRender,
-    BuildingLegend,
+    BuildingSidebar,
+    BuildingStatistic,
   },
   props: {
     // 楼盘表自定义样式类名
@@ -46,17 +67,17 @@ export default {
     // 楼盘表自定义样式
     tableStyle: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
-    // 楼盘表高度
+    // 楼盘表高度，可以是数字、百分比(%,vh)、计算高度(calc)、'auto'等
     height: {
-      type: Number,
+      type: [Number, String],
       default: 600,
     },
     // 楼盘表数据
     buildingData: {
       type: Object,
-      default: () => { },
+      default: () => null,
     },
     // 当前逻辑幢ID，为空时加载第一个逻辑幢
     logicBuildId: {
@@ -69,26 +90,72 @@ export default {
       validator: (val) => ["single", "multiple", "disable"].includes(val),
       default: "multiple",
     },
-    // 楼盘表渲染模式，可以是表格布局(table)、弹性布局(flex)
+    // 楼盘表显示模式，可以是buildingTable(楼盘表)、elementTable(列表)
+    displayMode: {
+      type: String,
+      validator: (val) => ["buildingTable", "elementTable"].includes(val),
+      default: "buildingTable",
+    },
+    // 显示模式为楼盘表(buildingTable)时使用的布局模式，可以是表格布局(table)、弹性布局(flex)
     renderMode: {
       type: String,
       validator: (val) => ["table", "flex"].includes(val),
       default: "table",
     },
-    // 是否显示标题
-    showTitle: {
-      type: Boolean,
-      default: false,
-    },
-    // 是否显示图例
-    showLegends: {
+    // 是否显示导航栏
+    showHeader: {
       type: Boolean,
       default: true,
     },
-    // 楼盘表工具，可以是"locate", "select", "switchLogic"的组合
+    // 是否显示标题
+    showTitle: {
+      type: Boolean,
+      default: true,
+    },
+    // 楼盘表工具，可以是"locate", "select", "switchLogic"，"display"的组合
     tools: {
       type: Array,
-      default: () => ["locate", "switchLogic"],
+      default: () => ["locate", "switchLogic", "display"],
+    },
+    // 是否显示侧边栏
+    showSidebar: {
+      type: Boolean,
+      default: true,
+    },
+    // 侧边栏面板，可以是"legend"、"tag"的组合
+    sidebarPanels: {
+      type: Array,
+      default: () => ["legend", "tag"],
+    },
+    // 激活的侧边栏面板，默认激活第一个
+    activePanel: {
+      type: String,
+      default: "",
+    },
+    // 图例选项
+    legendOptions: {
+      type: Object,
+      default: () => null,
+    },
+    // 标签选项
+    tagOptions: {
+      type: Object,
+      default: () => null,
+    },
+    // 是否显示页脚
+    showFooter: {
+      type: Boolean,
+      default: true,
+    },
+    // 统计数据
+    statisticData: {
+      type: Array,
+      default: () => null,
+    },
+    // 统计最多显示几列
+    statisticMaxColumn: {
+      type: Number,
+      default: 6,
     },
     // 提示信息
     tipText: {
@@ -101,9 +168,7 @@ export default {
     this.store = createStore({
       useMode: this.selectionMode,
       builderType: this.renderMode,
-      layout: {
-        height: this.height,
-      },
+      displayMode: this.displayMode,
     });
     return {};
   },
@@ -111,7 +176,14 @@ export default {
     ...mapStates({
       selections: "selection",
       logicBuild: "logicBuild",
+      layout: "layout",
     }),
+    wrapStyle() {
+      const style = this.tableStyle || {};
+      style.height =
+        typeof this.height == "number" ? `${this.height}px` : this.height;
+      return style;
+    },
   },
   watch: {
     buildingData: "setData",
@@ -119,15 +191,18 @@ export default {
     logicBuild(val) {
       this.$emit("logic-build-change", val.id);
     },
-    height(val) {
-      this.store.commit("setLayout", {
-        height: val,
-      });
-    },
+    displayMode: "setDisplayMode",
     renderMode: "setRenderMode",
   },
   mounted() {
+    this.observeResize();
     this.refresh();
+  },
+  beforeDestroy() {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
   },
   methods: {
     // 设置楼盘表数据源，同属性buildingData
@@ -136,7 +211,7 @@ export default {
         this.store.commit("setData", data);
         this.store.commit("setLogicBuild", this.logicBuildId);
       } else {
-        this.clearData()
+        this.clearData();
       }
     },
     // 清除数据源
@@ -169,10 +244,40 @@ export default {
     clearSelection() {
       this.store.commit("clearSelect");
     },
-    // 设置渲染模式
+    // 设置显示模式
+    setDisplayMode(mode) {
+      this.store.commit("setDisplayMode", mode);
+    },
+    // 设置楼盘表布局模式
     setRenderMode(mode) {
       this.store.commit("setBuilerType", mode);
       this.refresh();
+    },
+    // 设置房屋显示的标签
+    setCheckedTags(tagProps) {
+      this.store.commit("setCheckedTags", tagProps);
+    },
+    // 检测高度变化
+    observeResize() {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.resize();
+      });
+      this.resizeObserver.observe(this.$el);
+    },
+    // 重新布局
+    resize() {
+      if (this.height == "auto") return;
+      const rs = getComputedStyle(this.$el);
+      const ft = this.$el.querySelector(".building-table__footer");
+      const fts = getComputedStyle(ft);
+      let visualHeight =
+        this.$el.clientHeight -
+        parseInt(rs.paddingTop || 0) -
+        parseInt(rs.paddingBottom || 0) -
+        parseInt(fts.marginTop || 0) -
+        ft.clientHeight;
+      visualHeight = Math.max(visualHeight, 0);
+      this.store.commit("setLayout", { height: visualHeight });
     },
     // 刷新楼盘表
     refresh() {
@@ -182,6 +287,7 @@ export default {
   provide() {
     return {
       store: this.store,
+      buildingTableProps: this.$props,
     };
   },
 };

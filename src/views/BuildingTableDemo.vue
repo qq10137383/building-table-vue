@@ -1,54 +1,68 @@
 <template>
   <div class="building-table-demo">
-    <building-table :buildingData="buildingData" @house-click="houseClick" @house-title-click="houseTitleClick"
-      @select-change="selectChange">
-      <!-- 单元单元格配置定义，如需要完全自定义单元单元格内容模板，使用slot-scope -->
-      <!-- <unit-definition>
+    <el-button type="primary" @click="open">打开楼盘表</el-button>
+    <el-dialog title="楼盘表" top="50px" width="90%" :visible.sync="visible">
+      <building-table
+        height="calc(100vh - 165px)"
+        v-bind="$attrs"
+        :building-data="buildingData"
+        :statistic-data="statisticData"
+        @house-click="houseClick"
+        @house-title-click="houseTitleClick"
+        @select-change="selectChange"
+      >
+        <!-- 单元单元格配置定义，如需要完全自定义单元单元格内容模板，使用slot-scope -->
+        <!-- <unit-definition>
         <template slot-scope="scope">
           <div class="unit">{{ scope.unitInfo.unitName }}</div>
         </template>
       </unit-definition> -->
-      <!-- 楼层单元格配置定义，如需要完全自定义楼层单元格内容模板，使用slot-scope -->
-      <!-- <floor-definition>
+        <!-- 楼层单元格配置定义，如需要完全自定义楼层单元格内容模板，使用slot-scope -->
+        <!-- <floor-definition>
         <template slot-scope="scope">
           <div class="floor">{{ scope.floorInfo.name }}</div>
         </template>
       </floor-definition> -->
-      <!-- 房屋单元格配置定义，如需要完全自定义房屋单元格内容模板，使用slot-scope -->
-      <!-- <house-definition :excludeFields="excludeFields">
+        <!-- 房屋单元格配置定义，如需要完全自定义房屋单元格内容模板，使用slot-scope -->
+        <!-- <house-definition :excludeFields="excludeFields">
         <template slot-scope="scope">
           <div class="house-cell-wrap">{{ scope.houseInfo.houseName }}</div>
         </template>
       </house-definition> -->
-      <!-- 自定义标题栏左侧工具栏 -->
-      <!-- <template v-slot:headerLeft>
+        <!-- 自定义标题栏左侧工具栏 -->
+        <!-- <template v-slot:headerLeft>
         <div class="building-tool">left-slot</div>
       </template> -->
-      <!-- 自定义标题栏右侧工具栏 -->
-      <!-- <template v-slot:headerRight>
+        <!-- 自定义标题栏右侧工具栏 -->
+        <!-- <template v-slot:headerRight>
         <div class="building-tool">right-slot</div>
       </template> -->
-      <!-- tooltip组件 -->
-      <house-tooltip>
+        <!-- tooltip组件 -->
+        <!-- <house-tooltip>
         <template slot-scope="house">
-          <ul>
-            <li>房号{{ house.houseName }}</li>
-            <li>建筑面积：{{ house.houseName }}</li>
-            <li>权利人：{{ house.houseName }}</li>
+          <ul v-if="house.list">
+            <li>房号:{{ house.houseNo }}</li>
+            <li>建筑面积(㎡)：{{ house.list.jzmj }}</li>
+            <li>权利人：{{ house.list.cqrxm }}</li>
           </ul>
         </template>
-      </house-tooltip>
-    </building-table>
+      </house-tooltip> -->
+      </building-table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import BuildingTable // UnitDefinition,
-// FloorDefinition,
-//HouseDefinition,
-, { HouseTooltip }
-  from "@/components/BuildingTable";
+import BuildingTable from "@/components/BuildingTable";
+// import {
+//   HouseDefinition,
+//   FloorDefinition,
+//   UnitDefinition,
+//   HouseTooltip,
+// } from "@/components/BuildingTable";
+import data from "../data.json";
 
+// 楼盘表测试
 export default {
   name: "BuildingTableDemo",
   components: {
@@ -56,168 +70,54 @@ export default {
     // UnitDefinition,
     // FloorDefinition,
     // HouseDefinition,
-    HouseTooltip,
+    // HouseTooltip,
   },
   data() {
     return {
+      visible: true,
       buildingData: null,
-      excludeFields: ["房屋名称"], //  排除显示字段
+      statisticData: [
+        { name: "总面积", value: "30078.54㎡" },
+        { name: "总套数", value: "360套" },
+        { name: "地上面积", value: "30078.54㎡" },
+        { name: "地上套数", value: "372套" },
+        { name: "地下面积", value: "0㎡" },
+        { name: "地下套数", value: "0套" },
+        { name: "签约面积", value: "1687.58㎡" },
+        { name: "签约套数", value: "21套" },
+        { name: "备案面积", value: "28390.96㎡" },
+        { name: "备案套数", value: "351套" },
+        { name: "签约未缴费面积", value: "30078.54㎡" },
+        { name: "签约未缴费套数", value: "372套" },
+      ],
     };
   },
   created() {
-    // 创建测试数据
-    let data = this.createTestData();
-    // 测试跨多层
-    data.logicBuilds[0].houses[0].columnCount = 2;
-    data.logicBuilds[0].houses[0].layerCount = 2;
-    const house = data.logicBuilds[0].houses.find(m=>m.houseName === '403')
-    house.layerCount = 2
-
-    // const house1 = data.logicBuilds[0].houses.find(m=>m.houseName === '502')
-    // house1.columnCount = 2
-
-    // const idx = data.logicBuilds[0].houses.findIndex(m=>m.houseName === '303')
-    //  data.logicBuilds[0].houses.splice(idx,1)
-    //  const idx1 = data.logicBuilds[0].houses.findIndex(m=>m.houseName === '504')
-    //  data.logicBuilds[0].houses.splice(idx1,1)
-
-    // data.logicBuilds[0].houses[0].columnCount = 2;
-    // 加载数据
-    // this.$refs.buildingTable.setData(jsonData.data);
-    this.buildingData = data;
+    this.buildingData = data.data;
   },
   methods: {
-    createTestData() {
-      let data = {
-        useMode: "multiple",
-        buildId: "787CE3FF7ED54E55BE015DC5085B54B9",
-        buildName: "碧桂园13栋",
-        buildAddress: "香港路234号碧桂园13栋",
-        logicBuilds: [],
-        legends: [
-          {
-            name: "初始状态",
-            value: "255,255,255",
-          },
-          {
-            name: "不可售",
-            value: "165,165,165",
-          },
-          {
-            name: "转移登记",
-            value: "153,56,8",
-          },
-          {
-            name: "查封登记",
-            value: "90,87,73",
-          },
-          {
-            name: "抵押登记",
-            value: "94,4,65",
-          },
-          {
-            name: "在建工程抵押登记",
-            value: "94,4,65",
-          },
-        ],
-      };
-      data.logicBuilds.push(this.createLogicBuild("1", "住宅", 100, 4, 4));
-      data.logicBuilds.push(this.createLogicBuild("2", "商铺", 100, 4, 4));
-      return data;
+    open() {
+      this.visible = true;
     },
-    createLogicBuild(id, name, ic, jc, kc) {
-      let data = {
-        logicBuildId: id,
-        logicBuildName: name,
-        houses: [],
-      };
-      let index = 1;
-      let houseId = id + index;
-      for (let i = 0; i < ic; i++) {
-        for (let j = 0; j < jc; j++) {
-          for (let k = 0; k < kc; k++) {
-            let house = this.createHouse(i, j, k, houseId);
-            data.houses.push(house);
-            index++;
-            houseId = id + index;
-          }
-        }
-      }
-      return data;
+    houseClick(e) {
+      console.log("house-click:", e);
     },
-    createHouse(i, j, k, index) {
-      let houseName = i + 1 + String(k + 1).padStart(2, "0");
-      let house = {
-        // 房屋ID
-        houseId: index,
-        // 房屋显示名称
-        houseName,
-        // 房屋房号
-        houseNo: houseName,
-        // 单元名称
-        unitName: `${j + 1}单元`,
-        // 单元排序号
-        unitOrder: j + 1,
-        // 占有楼层，跨层方向是从上往下的，比如201如果跨两层则会占用101的位置，101跨两层则会占用-101，0层会自动跳过
-        layerCount: 1,
-        // 起始楼层
-        minAtLayer: i + 1,
-        // 横跨房间数
-        columnCount: 1,
-        // 楼层显示名称
-        layerName: `${i + 1}层`,
-        // 排序号
-        order: k + 1,
-        // 是否可操作
-        isEnabled: true,
-        // 是否选中
-        isSelected: i === 6,
-        // 色块符号信息
-        symbols: [
-          {
-            name: "转移登记",
-            value: "153,56,8",
-          },
-          // {
-          //   name: "抵押登记",
-          //   value: "94,4,65",
-          // },
-          // {
-          //   name: "查封登记",
-          //   value: "153,56,8",
-          // },
-          // {
-          //   name: "抵押登记",
-          //   value: "94,4,65",
-          // },
-        ],
-        // 字段显示信息
-        blocks: [
-          {
-            name: "房屋名称",
-            value: houseName,
-          },
-          {
-            name: "建筑面积",
-            value: "100.29",
-          },
-          {
-            name: "权利人",
-            value: "张三" + index,
-          },
-        ],
-      };
-      return house;
+    houseTitleClick(e) {
+      console.log("house-title-click:", e);
     },
-    houseClick() {
-      console.log("house-click:");
-    },
-    houseTitleClick() {
-      console.log("house-title-click:");
-    },
-    selectChange() {
-      console.log("select-change:");
+    selectChange(e) {
+      console.log("select-change:", e);
     },
   },
 };
 </script>
+
+<style lang="scss">
+.building-table-demo {
+  padding: 10px;
+
+  .el-dialog__body {
+    padding: 5px;
+  }
+}
+</style>

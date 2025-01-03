@@ -12,7 +12,7 @@ export default class FlexBuilder extends BaseBuilder {
 
         // 1、生成房屋数据结构: houseList->Array<layer>，layer->Array<unit>，unit->Array<house>
         const houseList = Array.from({ length: layerList.length }, () => {
-            return new Array(unitList.length).fill([])
+            return Array.from({ length: unitList.length }, () => [])
         })
         // 2、填充房屋
         for (const house of houses) {

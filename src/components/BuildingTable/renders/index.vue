@@ -1,14 +1,19 @@
 <template>
   <div class="building-render-wrap">
     <template v-if="hasData">
-      <template v-if="builderType === 'table'">
-        <unit-table-render />
-        <house-table-render />
+      <!-- 楼盘表渲染 -->
+      <template v-if="displayMode === 'buildingTable'">
+        <template v-if="builderType === 'table'">
+          <unit-table-render />
+          <house-table-render />
+        </template>
+        <template v-else-if="builderType === 'flex'">
+          <unit-flex-render />
+          <house-flex-render />
+        </template>
       </template>
-      <template v-else-if="builderType === 'flex'">
-        <unit-flex-render />
-        <house-flex-render />
-      </template>
+      <!-- 列表渲染 -->
+      <house-list-render v-else />
     </template>
     <div
       v-else
@@ -31,6 +36,7 @@ import HouseTableRender from "./table/HouseTableRender";
 // flex布局
 import UnitFlexRender from "./flex/UnitFlexRender";
 import HouseFlexRender from "./flex/HouseFlexRender";
+import HouseListRender from "./list/HouseListRender";
 
 /**
  * 楼盘表视图渲染器
@@ -42,11 +48,13 @@ export default {
     HouseTableRender,
     UnitFlexRender,
     HouseFlexRender,
+    HouseListRender,
   },
   inject: ["store"],
   computed: {
     ...mapStates({
       builderType: "builderType",
+      displayMode: "displayMode",
     }),
     hasData() {
       const { houses } = this.store.states.logicBuild;

@@ -1,19 +1,48 @@
-.bt-checkbox {
-  display: inline-block;
-  cursor: pointer;
+$legend-size: 20px;
 
-  .bt-checkbox__input {
-    margin-right: 2px;
-    &[disabled] {
-      cursor: not-allowed;
-    }
-  }
-  .bt-checkbox__text {
-    font-size: 14px;
-    vertical-align: 2px;
+.legend-item__block {
+  min-width: $legend-size;
+  width: $legend-size;
+  height: $legend-size;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.legend-item__char {
+  min-width: $legend-size;
+  width: $legend-size;
+  height: $legend-size;
+  line-height: $legend-size;
+  text-align: center;
+  display: inline-block;
+  border-radius: 50%;
+  font-size: $font-size--xsmall;
+  color: #fff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.legend-item__icon {
+  min-width: $legend-size;
+  width: $legend-size;
+  height: $legend-size;
+  display: inline-block;
+  line-height: normal;
+
+  > i {
+    font-size: $legend-size + 6px;
+    position: relative;
+    left: -3px;
+    top: -2px;
   }
 }
 
-.cell-fill {
-  height: 100%;
+.legend-item__empty {
+  display: none;
+}
+
+.cell-checkbox {
+  .el-checkbox__label {
+    padding-left: 4px;
+  }
 }

@@ -1,21 +1,13 @@
 <template>
-  <div
-    class="building-tool switch-logic-tool-wrap"
-    v-if="logicInfos.length > 1"
-  >
-    <div
-      v-for="logic in logicInfos"
-      :key="logic.id"
-      :class="[
-        'logic-item',
-        {
-          'logic-checked': logic.id == logicBuildId,
-        },
-      ]"
-      @click="changeLogicBuild(logic.id)"
-    >
-      {{ logic.name }}
-    </div>
+  <div class="building-tool switch-logic-tool-wrap" v-if="showLogic">
+    <el-radio-group v-model="logicId" size="small">
+      <el-radio-button
+        v-for="logic in logicInfos"
+        :key="logic.id"
+        :label="logic.id"
+        >{{ logic.name }}</el-radio-button
+      >
+    </el-radio-group>
   </div>
 </template>
 
@@ -31,13 +23,19 @@ export default {
   computed: {
     ...mapStates({
       logicInfos: "logicInfos",
-      logicBuildId: "logicBuild.id",
     }),
-  },
-  methods: {
-    // 切换逻辑幢
-    changeLogicBuild(logicId) {
-      this.store.commit("setLogicBuild", logicId);
+    showLogic() {
+      return !(
+        this.logicInfos.length == 1 && this.logicInfos[0].name == "未分区"
+      );
+    },
+    logicId: {
+      get() {
+        return this.store.states.logicBuild.id;
+      },
+      set(val) {
+        this.store.commit("setLogicBuild", val);
+      },
     },
   },
 };

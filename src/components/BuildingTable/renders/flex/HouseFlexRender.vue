@@ -27,6 +27,16 @@ export default {
         this.layout.height - parseInt(headerHeight) - this.unitDefinition.height
       );
     },
+
+    tableStyle() {
+      const style = {};
+      if (this.tableHeight > 0) {
+        style.height = `${this.tableHeight}px`;
+      }
+      style["--hfr-floor-width"] = `${this.floorDefinition.width}px`;
+      style["--hfr-house-width"] = `${this.houseDefinition.width}px`;
+      return style;
+    },
   },
   watch: {
     selections(val) {
@@ -37,6 +47,8 @@ export default {
       const house = this.locate.house;
       if (house) {
         this.scrollHouseIntoView(house);
+      } else {
+        this.$message.warning("未定位到房屋！");
       }
     },
   },
@@ -49,8 +61,7 @@ export default {
   methods: {
     // 设置楼盘表内容区域布局参数
     setLayout() {
-      const hasGutter = this.tableWidth >= this.$el.clientWidth
-        && this.$el.scrollHeight > this.$el.clientHeight;
+      const hasGutter = this.$el.scrollHeight > this.$el.clientHeight;
       this.store.commit("setLayout", {
         hasGutter,
       });
@@ -173,14 +184,7 @@ export default {
   },
   render() {
     return (
-      <div
-        class="house-render-wrap house-flex-render"
-        style={{
-          height: `${this.tableHeight}px`,
-          "--hfr-floor-width": `${this.floorDefinition.width}px`,
-          "--hfr-house-width": `${this.houseDefinition.width}px`,
-        }}
-      >
+      <div class="house-render-wrap house-flex-render" style={this.tableStyle}>
         {this.houses.map((floor, index) => {
           const { layer } = this.floors[index];
           return (

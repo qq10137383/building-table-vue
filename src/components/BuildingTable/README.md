@@ -140,29 +140,50 @@
 
 ## 楼盘表高度
 
-楼盘表单元固定，仅房屋、楼层区域才会滚动，所以需要设置高度，默认值为 `600px`
+楼盘表单元固定，仅房屋、楼层区域才会滚动，所以需要设置高度，默认值为 `600px`，值可以是数字、百分比(%,vh)、计算高度(calc)、'auto'等，如果设置为'auto'，单元将不会固定，会随着滚动条滚动。
 
 ```html
 <building-table :height="600" :buildingData="buildingData"> </building-table>
 ```
 
+## 显示模式  
+
+楼盘表内置两种显示模式模式，通过设置组件 `displayMode` 属性或者组件工具栏切换。
+
+- buildingTable：使用二维楼盘表展示。  
+- elementTable：使用element-ui table渲染，以列表形式展示。  
+
+当显示模式为 `buildingTable` 时，可以通过属性 `renderMode` 设置二维楼盘表的布局模式。
+
+- table：使用表格渲染，支持跨行和跨列，楼层始终不换行。  
+- flex：使用弹性布局渲染，不支持跨行跨列，单元始终等分楼盘表宽度，楼层中房屋过多时会换行显示。
+
 ## BuildingTable 组件说明
 
 ### BuildingTable 属性
 
-| 参数          | 说明                                                  | 类型    | 默认值             | 可选值                            |
-| ------------- | ----------------------------------------------------- | ------- | ------------------ | --------------------------------- |
-| className     | 楼盘表自定义样式类名                                  | String  | ''                 |                                   |
-| tableStyle    | 楼盘表自定义样式                                      | Object  |                    |                                   |
-| height        | 楼盘表高度                                            | Number  | 600                |                                   |
-| buildingData  | 楼盘表数据                                            | Object  |                    |                                   |
-| logicBuildId  | 当前逻辑幢 ID，为空时加载第一个逻辑幢                 | String  | ''                 |                                   |
-| selectionMode | 楼盘表选择模式，优先级低于 buildingData 的 useMode    | String  | ''                 | "single", "multiple", "disable"   |
-| renderMode    | 楼盘表渲染模式，可以是表格布局(table)、弹性布局(flex) | String  | 'flex'             | "table", "flex", "disable"        |
-| showTitle     | 是否显示标题                                          | Boolean | false              |                                   |
-| showLegends   | 是否显示图例                                          | Boolean | true               |                                   |
-| tools         | 内置工具栏，"locate", "select", "switchLogic"的组合   | Array   | locate,switchLogic | "locate", "select", "switchLogic" |
-| tipText       | 提示信息                                              | String  | '暂无数据'         |                                   |
+| 参数               | 说明                                                | 类型           | 默认值                     | 可选值                                      |
+| ------------------ | --------------------------------------------------- | -------------- | -------------------------- | ------------------------------------------- |
+| className          | 楼盘表自定义样式类名                                | String         | ''                         |                                             |
+| tableStyle         | 楼盘表自定义样式                                    | Object         |                            |                                             |
+| height             | 楼盘表高度                                          | Number, String | 600                        |                                             |
+| buildingData       | 楼盘表数据                                          | Object         |                            |                                             |
+| logicBuildId       | 当前逻辑幢 ID，为空时加载第一个逻辑幢               | String         | ''                         |                                             |
+| selectionMode      | 楼盘表选择模式，优先级低于 buildingData 的 useMode  | String         | ''                         | "single", "multiple", "disable"             |
+| displayMode        | 楼盘表显示模式                                      | String         | ''                         | "buildingTable", "elementTable"             |
+| renderMode         | 显示模式为楼盘表(buildingTable)时使用的布局模式     | String         | 'flex'                     | "table", "flex"                             |
+| showHeader         | 是否显示导航栏                                      | Boolean        | true                       |                                             |
+| showTitle          | 是否显示标题                                        | Boolean        | true                       |                                             |
+| tools              | 内置工具栏，"locate", "select", "switchLogic"的组合 | Array          | locate,switchLogic,display | "locate", "select", "switchLogic","display" |
+| showSidebar        | 是否显示侧边栏                                      | Boolean        | true                       |                                             |
+| sidebarPanels      | 侧边栏面板, "legend","tag"的组合                    | Array          | legend,tag                 | "legend","tag"                              |
+| activePanel        | 激活的侧边栏面板，默认激活第一个                    | String         | ''                         | "legend", "tag"                             |
+| legendOptions      | 图例选项                                            | Object         | null                       |                                             |
+| tagOptions         | 标签选项                                            | Object         | null                       |                                             |
+| showFooter         | 是否显示页脚                                        | Boolean        | true                       |                                             |
+| statisticData      | 统计数据                                            | Object         | null                       |                                             |
+| statisticMaxColumn | 统计最多显示几列                                    | Number         | 6                          |                                             |
+| tipText            | 提示信息                                            | String         | '暂无数据'                 |                                             |
 
 ### BuildingTable 方法
 
@@ -176,7 +197,10 @@
 | removeSelections | 移除房屋选择(houseIds：房屋 ID 集合)                                        | houseIds    |
 | clearSelection   | 移除房屋选择(houseIds：房屋 ID 集合)                                        |             |
 | selectAll        | 全选所有房屋(onlyEnabled 为 true，isEnabled 为 false 的房屋不会被选中)      | onlyEnabled |
+| setDisplayMode   | 设置显示模式                                                                | mode        |
 | setRenderMode    | 设置楼盘表渲染模式                                                          | mode        |
+| setCheckedTags   | 设置房屋显示的标签                                                          | tagProps    |
+| resize           | 重新布局                                                                    |             |
 | refresh          | 使用当前数据重新渲染楼盘表                                                  |             |
 
 ### BuildingTable 事件
@@ -202,6 +226,7 @@
 | default     | 用来放置 UnitDefinition,FloorDefinition,HouseDefinition 自定义模板 |
 | headerLeft  | 标题栏左侧工具栏                                                   |
 | headerRight | 标题栏右侧工具栏                                                   |
+| footer      | 页脚                                                               |
 
 ## UnitDefinition 组件说明
 
@@ -254,17 +279,21 @@
 
 ### HouseDefinition 属性
 
-| 参数          | 说明                                      | 类型           | 默认值 | 可选值 |
-| ------------- | ----------------------------------------- | -------------- | ------ | ------ |
-| width         | 房屋单元格宽度                            | Number         | 220    |        |
-| className     | 房屋单元格自定义类名                      | String         | ''     |        |
-| houseStyle    | 房屋单元格自定义样式                      | Object         |        |        |
-| showBlock     | 是否显示房屋详细(blocks)信息              | Boolean        | true   |        |
-| includeFields | blocks 中要显示的字段，不设置显示所有字段 | Array\<String> | null   |        |
-| excludeFields | blocks 中要排除的字段                     | Array\<String> | null   |        |
-| showSymbol    | 是否显示房屋符号(symbols)信息             | Boolean        | true   |        |
-| symbolColumn  | 每行显示几个房屋符号(symbol)              | Number         | 3      |        |
-| simple        | 是否以精简模式显示                        | Boolean        | false  |        |
+| 参数                 | 说明                                      | 类型           | 默认值 | 可选值 |
+| -------------------- | ----------------------------------------- | -------------- | ------ | ------ |
+| width                | 房屋单元格宽度                            | Number         | 220    |        |
+| className            | 房屋单元格自定义类名                      | String         | ''     |        |
+| houseStyle           | 房屋单元格自定义样式                      | Object         |        |        |
+| showBlock            | 是否显示房屋详细(blocks)信息              | Boolean        | true   |        |
+| parseBlockValue      | 标签值转换函数                            | Function       |        |        |
+| includeFields        | blocks 中要显示的字段，不设置显示所有字段 | Array\<String> | null   |        |
+| excludeFields        | blocks 中要排除的字段                     | Array\<String> | null   |        |
+| showSymbol           | 是否显示房屋符号(symbols)信息             | Boolean        | true   |        |
+| symbolColumn         | 每行显示几个房屋符号(symbol)              | Number         | 2      |        |
+| simple               | 是否以精简模式显示                        | Boolean        | false  |        |
+| simpleWidth          | 精简模式下单元格宽度                      | Number         | 120    |        |
+| showTitle            | 是否显示单元格提示信息                    | Boolean        | false  |        |
+| adjustWidthIfNoBlock | 没有标签时是否调整单元格宽度为simpleWidth | Boolean        | true   |        |
 
 ### HouseDefinition scope 参数
 
@@ -287,7 +316,7 @@
 
 | 参数      | 说明                      | 类型   | 默认值 | 可选值 |
 | --------- | ------------------------- | ------ | ------ | ------ |
-| delayTime | 延时显示tooltip时间(毫秒) | Number | 1000    |        |
+| delayTime | 延时显示tooltip时间(毫秒) | Number | 1000   |        |
 
 
 ```html

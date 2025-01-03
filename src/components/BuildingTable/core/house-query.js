@@ -102,7 +102,7 @@ export default class HouseQuery {
       return null
     }
     for (const house of this.currentLogic.houses) {
-      if (house.unitName === unitName && house.houseName === houseNo) {
+      if (house.unitName === unitName && house.houseNo === houseNo) {
         return house
       }
     }

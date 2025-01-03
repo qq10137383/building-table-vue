@@ -1,58 +1,102 @@
 <template>
-  <div class="building-legend-wrap">
-    <div
-      v-for="(legend, index) in legends"
-      :key="index"
-      class="legend-item"
-      :title="legend.name"
-    >
-      <span class="legend-item__symbol" :style="getStyle(legend)" />
-      <span class="legend-item__text">{{ legend.name }}</span>
-      <span class="legend-item__count">({{ getCount(legend) }})</span>
+  <div class="building-legend-wrap sidebar-content__item">
+    <h4 class="sidebar-content__title">房屋状态</h4>
+    <div class="sidebar-content__visual building-legend__content">
+      <div
+        class="sidebar-item__group"
+        v-for="group in Object.keys(legendGroups)"
+        :key="group"
+      >
+        <div
+          v-for="(legend, index) in legendGroups[group]"
+          :key="index"
+          class="legend-item"
+          :title="getName(legend)"
+        >
+          <legend-symbol :item="legend" mode="legend" />
+          <span class="legend-item__text"> {{ getName(legend) }}</span>
+          <span class="legend-item__count">({{ legend.count }})</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import { mapStates } from "./store";
-import { toColor } from "./utils";
+import { deepClone } from "./utils";
+import LegendSymbol from "./LegendSymbol";
+
+const defaultOptions = {
+  // 是否分组显示
+  showGroup: true,
+  // 分组字段
+  groupField: "tllx",
+};
 
 /**
  * 楼盘表图例
  */
 export default {
   name: "BuildingLegend",
-  inject: ["store"],
+  inject: ["store", "buildingTableProps"],
+  components: {
+    LegendSymbol,
+  },
   computed: {
-    ...mapStates({
-      legends: "legends",
-      logicBuild: "logicBuild",
-    }),
+    // 获取buildingTable的legendOptions属性
+    legendOptions() {
+      const { legendOptions } = this.buildingTableProps;
+      const options = Object.assign({}, defaultOptions, legendOptions || {});
+      return options;
+    },
+    legendGroups() {
+      const legends = deepClone(this.store.states.legends || []);
+      this.statisticLegends(legends);
+      const groups = this.groupLegends(legends);
+      return groups;
+    },
   },
   methods: {
-    // 获取图例样式
-    getStyle(legend) {
-      return {
-        backgroundColor: toColor(legend.value),
-      };
+    // 获取图例名称(兼容老数据)
+    getName(m) {
+      return m.text || m.tlmc || m.name;
     },
-    // 获取统计数量
-    getCount(legend) {
-      let count = 0;
-      for (const floor of this.logicBuild.houses) {
-        for (const unit of floor) {
-          for (const house of unit) {
-            if (house) {
-              const has = (house.symbols || []).some(
-                (m) => m.code === legend.code
-              );
-              has && count++;
-            }
-          }
-        }
+    // 统计图例数量
+    statisticLegends(legends) {
+      const houses = this.store.states.logicBuild.houses || [];
+      const countMap = {};
+      houses.forEach((layer) => {
+        layer.forEach((unit) => {
+          unit.forEach((house) => {
+            if (!house) return;
+            (house.symbols || []).forEach((n) => {
+              const key = this.getName(n);
+              countMap[key] = (countMap[key] || 0) + 1;
+            });
+          });
+        });
+      });
+      legends.forEach((m) => {
+        const key = this.getName(m);
+        m.count = countMap[key] || 0;
+      });
+      return legends;
+    },
+    // 图例分组
+    groupLegends(legends) {
+      const { showGroup, groupField } = this.legendOptions;
+      const groups = {};
+      const hasGroup = showGroup && !!groupField;
+      for (const item of legends) {
+        const key = (hasGroup && item[groupField]) || "default";
+        const children = groups[key] || (groups[key] = []);
+        children.push(item);
       }
-      return count;
+      // 排序
+      for (const item in groups) {
+        groups[item].sort((m, n) => m.pxh - n.pxh);
+      }
+      return groups;
     },
   },
 };
 </script>
-

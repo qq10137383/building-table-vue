@@ -7,11 +7,12 @@ import { val } from '../../utils'
  */
 export function createLogicData(options = {}) {
     return {
-        id: options.id,  // 逻辑幢ID
-        name: options.name || '', // 逻辑幢名称
+        id: options.id, // 逻辑幢ID
+        name: options.name || "", // 逻辑幢名称
         floors: options.floors || [], // 逻辑幢楼层信息
         units: options.units || [], // 逻辑幢单元信息
-        houses: options.houses || []  // 逻辑幢房屋信息
+        houses: options.houses || [], // 逻辑幢房屋信息
+        props: options.props || [], // 列表模式显示的属性字段信息
     }
 }
 
@@ -37,7 +38,6 @@ export default class BaseBuilder {
         house.isEnabled = Boolean(val(house, 'isEnabled', true)) // 是否可操作
         house.isSelected = Boolean(val(house, 'isSelected', false)) // 是否已选中
         house.symbols = house.symbols || [] // 色块符号信息
-        house.blocks = house.blocks || [] // 字段显示信息
     }
 
     // 房屋排序比较(相等返回0，大于 返回 1，小于 返回 -1)
@@ -83,7 +83,7 @@ export default class BaseBuilder {
             this.transformHouse(house)
             this.walkHouseLayer(house, (layer, minAtLayer) => {
                 if (!(layer in layerMap)) {
-                    const name = layer !== minAtLayer ? `${layer}层` : house.layerName
+                    const name = layer != minAtLayer ? `${layer}层` : house.layerName
                     layerMap[layer] = { layer, name }
                 }
             })
@@ -139,14 +139,16 @@ export default class BaseBuilder {
         const unitInfo = this.buildUnits(layerInfo)
         const houses = this.buildHouses(layerInfo, unitInfo)
 
-        const { logicBuildId, logicBuildName } = this.data
+        const { logicBuildId, logicBuildName, tableData = [] } = this.data;
+        const props = tableData.sort((m, n) => m.pxh - n.pxh); // 属性排序
         this.buildData = createLogicData({
-            id: logicBuildId,
-            name: logicBuildName,
-            floors: layerInfo.layerList,
-            units: unitInfo.unitList,
-            houses
-        })
+          id: logicBuildId,
+          name: logicBuildName,
+          floors: layerInfo.layerList,
+          units: unitInfo.unitList,
+          houses,
+          props,
+        });
         return this.buildData
     }
 }

@@ -1,0 +1,49 @@
+.house-list-wrap {
+  display: flex;
+  flex-direction: column;
+
+  .house-list__table {
+    height: 0;
+    flex: 1;
+
+    .single-select .el-radio__label {
+      display: none;
+    }
+
+    .locate-house-row {
+      background-color: #f89898;
+
+      &.hover-row {
+        > td.el-table__cell {
+          background-color: #f89898;
+
+          &.el-table-fixed-column--left,
+          &.el-table-fixed-column--right {
+            background-color: #f5f7fa;
+          }
+        }
+      }
+    }
+
+    .el-table .el-table__header {
+      th.el-table__cell {
+        background: #f5f7fa;
+      }
+    }
+
+    .list-symbol {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+  }
+
+  .house-list__footer {
+    margin-top: 6px;
+
+    .el-pagination {
+      text-align: right;
+    }
+  }
+}

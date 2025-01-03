@@ -33,11 +33,10 @@ export default {
     clearBuilder() {
       this.logicInfos = []
       this.states.logicBuild = createLogicData()
-      this.states.builderType = ''
     },
     // 设置构建器类型
     setBuilerType(type) {
-      this.states.builderType = type;
+      this.states.builderType = type
     }
   }
 }

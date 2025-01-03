@@ -1,32 +1,33 @@
 .building-table-wrap {
   position: relative;
-  overflow: hidden;
+  padding: 2px 5px 5px;
+  background-color: $background-color--dark1;
+  border: 1px solid $border-color--light;
+  border-radius: 2px;
+  box-sizing: border-box;
+
+  @include scrollbar;
+
+  .building-table__visual {
+    overflow: hidden;
+  }
 
   .building-table__content {
-    position: relative;
-
-    &.has-legend {
-      .building-table__content-left {
-        margin-right: $legend-width + 5px;
-      }
-
-      .building-table__content-right {
-        width: $legend-width;
-        display: block;
-      }
-    }
+    display: flex;
   }
 
   .building-table__content-left {
+    flex: 1;
+    width: 0;
     overflow: hidden;
   }
 
   .building-table__content-right {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    display: none;
+    margin-left: 5px;
+  }
+
+  .building-table__footer {
+    margin-top: 6px;
   }
 
   .building-table__tip,
@@ -36,9 +37,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .building-table__empty {
-    margin: 3px 0 0 2px;
+    background-color: $background-color;
+    height: 100%;
   }
 }

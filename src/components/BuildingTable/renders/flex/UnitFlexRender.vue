@@ -1,6 +1,6 @@
 <script>
 import { mapStates } from "../../store";
-import getScrollbarWidth from "../../utils/scrollbar-width";
+import { scrollbarWidth } from "../../style/variables.scss";
 
 /**
  * Flex布局楼盘表单元显示组件
@@ -56,7 +56,9 @@ export default {
                 key={`unit-wrap-${this.logicBuildId}-${unitInfo.unitName}`}
                 class="building-unit-wrap"
               >
-                <div class="building-fd__header" />
+                <div class="building-fd__header">
+                  <div class="header-cell-wrap">楼层</div>
+                </div>
                 {this.renderUnitCell(unitInfo)}
               </div>
             );
@@ -65,8 +67,10 @@ export default {
         {this.layout.hasGutter && (
           <div
             class="building-fd__gutter"
-            style={{ width: `${getScrollbarWidth()}px` }}
-          />
+            style={{ width: scrollbarWidth }}
+          >
+            <div class="gutter_cell-wrap"></div>
+          </div>
         )}
       </div>
     );

@@ -15,22 +15,21 @@ const unitConfig = {
   // 用来显示单元字段名
   titleField: 'unitName',
   // 单元默认渲染函数
-  render: function(h, { definition, logicBuildId, unitInfo, store }) {
+  render: function (h, { definition, unitInfo, store }) {
     const { className, unitStyle, titleField, showCheck } = definition
     const root = getBuildingTable(this)
-    const disabled = store.states.useMode !== 'multiple'
-    const id = `check-unit-${logicBuildId}-${unitInfo.unitName}`
+    const disabled = !showCheck || store.states.useMode !== "multiple"
 
-    const checkUnit = (e) => {
-      store.commit('selectUnit', unitInfo, e.target.checked)
-      root && root.$emit('unit-checked', { unitInfo, checked: e.target.checked })
+    const checkUnit = (checked) => {
+      store.commit('selectUnit', unitInfo, checked)
+      root && root.$emit('unit-checked', { unitInfo, checked })
     }
     return (
       <div class={['unit-cell-wrap', className]} style={unitStyle}>
-        <div class='bt-checkbox'>
-          {showCheck ? <input type='checkbox' id={id} domPropsDisabled={disabled} class='bt-checkbox__input' on-click={checkUnit} /> : ''}
-          <label for={id} class='bt-checkbox__text'>{unitInfo[titleField]}</label>
-        </div>
+        {disabled
+          ? (<span>{unitInfo[titleField]}</span>)
+          : (<el-checkbox class="cell-checkbox" disabled={disabled} on-change={checkUnit}>{unitInfo[titleField]}</el-checkbox>)
+        }
       </div>
     )
   }

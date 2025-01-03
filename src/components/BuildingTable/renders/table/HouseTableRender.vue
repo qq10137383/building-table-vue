@@ -36,6 +36,13 @@ export default {
         this.layout.height - parseInt(headerHeight) - this.unitDefinition.height
       );
     },
+    tableStyle() {
+      const style = {};
+      if (this.tableHeight > 0) {
+        style.height = `${this.tableHeight}px`;
+      }
+      return style;
+    },
   },
   watch: {
     selections(val) {
@@ -46,6 +53,8 @@ export default {
       const house = this.locate.house;
       if (house) {
         this.scrollHouseIntoView(house);
+      } else {
+        this.$message.warning("未定位到房屋！");
       }
     },
   },
@@ -58,8 +67,7 @@ export default {
   methods: {
     // 设置楼盘表内容区域布局参数和空楼层高度
     setLayout() {
-      const hasGutter = this.tableWidth >= this.$el.clientWidth
-        && this.$el.scrollHeight > this.$el.clientHeight;
+      const hasGutter = this.$el.scrollHeight > this.$el.clientHeight;
       const scrollLeft = this.$el.scrollLeft;
       this.store.commit("setLayout", {
         hasGutter,
@@ -260,14 +268,9 @@ export default {
     renderBody() {
       return this.houses.map((floor, index) => {
         const { layer } = this.floors[index];
-        // 判断是否是空楼层空楼层需要填充高度
-        const isEmpty = !floor.some(unit =>
-          unit.some(m => Boolean(m && m.layerCount == 1))
-        );
         return (
           <tr
             key={`tr-floor-${this.logicBuildId}-${layer}`}
-            data-empty={isEmpty}
             class="building-tr_floor"
           >
             {this.renderRow(floor, index)}
@@ -280,15 +283,12 @@ export default {
     return (
       <div
         class="house-render-wrap house-table-render"
-        style={{
-          height: `${this.tableHeight}px`,
-        }}
+        style={this.tableStyle}
         on-scroll={this.handleScroll}
       >
         <table
           cellspacing="0"
           cellpadding="0"
-          border="0"
           class="house-table"
           width={`${this.tableWidth}px`}
         >

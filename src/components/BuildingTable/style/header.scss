@@ -1,35 +1,45 @@
 .building-header-wrap {
-  background-color: $primary-color--dark1;
   height: $header-height;
-  line-height: $header-height;
   color: $reverse-color;
   font-size: $font-size--large;
   border-radius: 2px;
-  margin: 0 0 2px 2px;
-  text-align: center;
-  position: relative;
-
-  .building-header_title {
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-  }
+  margin-left: 2px;
+  display: flex;
 
   .building-header__left,
   .building-header__right {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    padding: 0 25px;
-    background-color: $primary-color--dark1;
+    height: 100%;
     display: flex;
-  }
-
-  .building-header__left {
-    left: 0;
+    align-items: center;
+    position: relative;
+    top: -1px;
   }
 
   .building-header__right {
-    right: 0;
+    margin-right: 6px;
+  }
+
+  .building-header__center {
+    flex: 1;
+    width: 0;
+    margin: 0 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .building-title__primary {
+    color: $font-color;
+    font-size: $font-size--large;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .building-title__second {
+    font-size: $font-size--large;
+    color: $font-color--light;
+    margin-left: 6px;
   }
 }

@@ -3,6 +3,7 @@ import { getBuildingTable } from "./utils";
 import SwitchLogicTool from "./tools/SwitchLogicTool";
 import SelectTool from "./tools/SelectTool";
 import LocateTool from "./tools/LocateTool";
+import DisplayTool from "./tools/DisplayTool";
 
 /**
  * 楼盘表标题栏
@@ -14,6 +15,7 @@ export default {
     SwitchLogicTool,
     SelectTool,
     LocateTool,
+    DisplayTool
   },
   props: {
     // 是否显示标题
@@ -27,32 +29,31 @@ export default {
       default: () => [],
     },
   },
-  computed: {
-    title() {
-      const { buildName, buildAddress } = this.store.states;
-      return buildName ? `${buildName}(${buildAddress})` : "";
-    },
-  },
   render() {
     // 渲染父元素插槽
     const root = getBuildingTable(this);
     const { headerLeft, headerRight } = root.$slots;
+    const { buildName, buildAddress } = this.store.states;
 
     return (
       <div class="building-header-wrap">
-        {this.showTitle && (
-          <h4 class="building-header_title" title={this.title}>
-            {this.title}
-          </h4>
-        )}
         <div class="building-header__left">
-          {this.tools.includes("switchLogic") && <switch-logic-tool />}
-          {this.tools.includes("select") && <select-tool />}
           {headerLeft}
         </div>
+        {this.showTitle && (
+          <div class="building-header__center">
+            <div class="building-title__primary">{buildName}</div>
+            <div class="building-title__second" title={buildAddress}>
+              ({ buildAddress })
+            </div>
+          </div>
+        )}
         <div class="building-header__right">
           {headerRight}
+          {this.tools.includes("select") && <select-tool />}
           {this.tools.includes("locate") && <locate-tool />}
+          {this.tools.includes("switchLogic") && <switch-logic-tool />}
+          {this.tools.includes("display") && <display-tool />}
         </div>
       </div>
     );

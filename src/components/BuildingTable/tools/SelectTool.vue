@@ -1,12 +1,8 @@
 <template>
   <div class="building-tool select-tool-wrap" v-if="useMode === 'multiple'">
-    <input
-      id="selectTool"
-      type="checkbox"
-      v-model="selectAll"
-      @change="handleChange"
-    />
-    <label for="selectTool">全选/反选</label>
+    <el-checkbox v-model="selectAll" @change="handleChange"
+      >全选/反选</el-checkbox
+    >
   </div>
 </template>
 
@@ -37,8 +33,8 @@ export default {
     },
   },
   methods: {
-    handleChange(e) {
-      if (e.target.checked) {
+    handleChange(checked) {
+      if (checked) {
         this.store.commit("selectAll", true);
       } else {
         this.store.commit("clearSelect");

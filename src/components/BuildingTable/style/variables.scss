@@ -1,19 +1,29 @@
-$primary-color: #a3d5f6;
-$primary-color--dark1: #669aff;
+$primary-color: #307fff;
 $primary-color--dark2: #275cc4;
 $reverse-color: #fff;
-$background-color: #fff;
-$background-color--dark1: #f0f0f0;
-$border-color: #d2d2d2;
-$font-color: #333;
 
+$background-color: #fff;
+$background-color--dark1: #f4f9ff;
+$background-color--dark2: #ebf3ff;
+$background-color--dark3: #deebfe;
+
+$border-color: #e5ecf4;
+$border-color--light: #f0f0f0;
+
+$font-color: #333;
+$font-color--light: #777;
 $font-size: 14px;
-$font-size--small: 12px;
+$font-size--small: 13px;
+$font-size--xsmall: 12px;
 $font-size--large: 16px;
 
+$cell-padding: 2px;
 $header-height: 40px;
-$legend-width: 135px;
+$sidebar-panel-width: 170px;
+
+$scrollbar-width: 7px;
 
 :export {
-    headerHeight: $header-height;
+  headerHeight: $header-height;
+  scrollbarWidth: $scrollbar-width;
 }

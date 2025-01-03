@@ -14,7 +14,7 @@ export function parsePath(path) {
   }
   const segments = path.split('.')
   return function (obj) {
-    for (var i = 0; i < segments.length; i++) {
+    for (let i = 0; i < segments.length; i++) {
       if (!obj) return
       obj = obj[segments[i]]
     }

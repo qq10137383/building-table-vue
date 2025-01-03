@@ -1,68 +1,68 @@
 <script>
-import { mapStates } from '../../store'
-import getScrollbarWidth from '../../utils/scrollbar-width'
+import { mapStates } from "../../store";
+import { scrollbarWidth } from "../../style/variables.scss";
 
 /**
  * 表格布局楼盘表单元显示组件
  */
 export default {
-  name: 'UnitTableRender',
-  inject: ['store'],
+  name: "UnitTableRender",
+  inject: ["store"],
   computed: {
     ...mapStates({
-      logicBuildId: 'logicBuild.id',
-      units: 'logicBuild.units',
-      layout: 'layout',
-      unitDefinition: 'unitDefinition',
-      floorDefinition: 'floorDefinition',
-      houseDefinition: 'houseDefinition'
+      logicBuildId: "logicBuild.id",
+      units: "logicBuild.units",
+      layout: "layout",
+      unitDefinition: "unitDefinition",
+      floorDefinition: "floorDefinition",
+      houseDefinition: "houseDefinition",
     }),
     tableWidth() {
       let value = this.units.reduce((width, unit) => {
         width +=
           this.floorDefinition.width +
-          this.houseDefinition.width * unit.columnCount
-        return width
-      }, 0)
+          this.houseDefinition.width * unit.columnCount;
+        return width;
+      }, 0);
       if (this.layout.hasGutter) {
-        value += getScrollbarWidth()
+        value += parseInt(scrollbarWidth);
       }
-      return value
-    }
+      return value;
+    },
   },
   methods: {
     // 生成楼盘表单元列定义
     renderCols() {
-      const colVNodes = []
-      let nodeKey
+      const colVNodes = [];
+      let nodeKey;
       for (const unit of this.units) {
-        nodeKey = `col-header-${this.logicBuildId}-${unit.unitName}`
+        nodeKey = `col-header-${this.logicBuildId}-${unit.unitName}`;
         colVNodes.push(
           <col
             name={nodeKey}
             key={nodeKey}
             width={this.floorDefinition.width}
           />
-        )
+        );
         for (let i = 0; i < unit.columnCount; i++) {
-          nodeKey = `col-unit-${this.logicBuildId}-${unit.unitName}-${i}`
+          nodeKey = `col-unit-${this.logicBuildId}-${unit.unitName}-${i}`;
           colVNodes.push(
             <col
               name={nodeKey}
               key={nodeKey}
               width={this.houseDefinition.width}
             />
-          )
+          );
         }
       }
       // 如果有滚动条，生成滚动条占位列定义
       if (this.layout.hasGutter) {
-        nodeKey = `col-gutter-${this.logicBuildId}`
+        nodeKey = `col-gutter-${this.logicBuildId}`;
         colVNodes.push(
-          <col name={nodeKey} key={nodeKey} width={getScrollbarWidth()} />
-        )
+          <col name={nodeKey} key={nodeKey} width={parseInt(scrollbarWidth)} />
+        );
       }
-      return colVNodes
+      return colVNodes;
     },
     // 生成楼盘表单元列
     renderUnitCell(unitInfo) {
@@ -73,60 +73,59 @@ export default {
           definition: this.unitDefinition,
           store: this.store,
           logicBuildId: this.logicBuildId,
-          unitInfo
+          unitInfo,
         }
-      )
+      );
       return (
         <td
           key={`td-unit-${this.logicBuildId}-${unitInfo.unitName}`}
-          rowspan='1'
+          rowspan="1"
           colspan={unitInfo.columnCount}
-          class='building-td__unit'
+          class="building-td__unit"
         >
           {unitVNode}
         </td>
-      )
+      );
     },
     // 生成楼盘表单元行
     renderRow() {
-      const rowVNodes = []
+      const rowVNodes = [];
       this.units.forEach((unitInfo) => {
         rowVNodes.push(
           <td
             key={`td-header-${this.logicBuildId}-${unitInfo.unitName}`}
-            rowspan='1'
-            colspan='1'
-            class='building-td__header'
+            rowspan="1"
+            colspan="1"
+            class="building-td__header"
           >
-            <div class="cell-fill"></div>
+            <div class="header-cell-wrap">楼层</div>
           </td>
-        )
-        rowVNodes.push(this.renderUnitCell(unitInfo))
-      })
+        );
+        rowVNodes.push(this.renderUnitCell(unitInfo));
+      });
       // 如果有滚动条，生成滚动条占位列
       if (this.layout.hasGutter) {
         rowVNodes.push(
           <td
             key={`td-gutter-${this.logicBuildId}`}
-            rowspan='1'
-            colspan='1'
-            class='building-td__gutter'
+            rowspan="1"
+            colspan="1"
+            class="building-td__gutter"
           >
-            <div class="cell-fill"></div>
+            <div class="gutter_cell-wrap"></div>
           </td>
-        )
+        );
       }
-      return rowVNodes
-    }
+      return rowVNodes;
+    },
   },
   render() {
     return (
-      <div class='unit-render-wrap unit-table-render'>
+      <div class="unit-render-wrap unit-table-render">
         <table
-          cellspacing='0'
-          cellpadding='0'
-          border='0'
-          class='unit-table'
+          cellspacing="0"
+          cellpadding="0"
+          class="unit-table"
           width={`${this.tableWidth}px`}
           style={{ marginLeft: `${-this.layout.scrollLeft}px` }}
         >
@@ -134,15 +133,15 @@ export default {
           <tbody>
             <tr
               key={`tr-unit-${this.logicBuildId}`}
-              class='building-tr__unit'
-              height={`${this.unitDefinition.height}px`}
+              class="building-tr__unit"
+              style={{ height: `${this.unitDefinition.height}px` }}
             >
               {this.renderRow()}
             </tr>
           </tbody>
         </table>
       </div>
-    )
-  }
-}
+    );
+  },
+};
 </script>

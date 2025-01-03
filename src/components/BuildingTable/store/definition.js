@@ -26,6 +26,14 @@ export default {
     },
     setHouseDefinition(definition) {
       deepAssign(this.states.houseDefinition, definition)
+    },
+    // 调整房屋单元格宽度
+    adjustHouseDefinitioWidth(simple) {
+      const { adjustWidthIfNoBlock } = this.states.houseDefinition;
+      if (adjustWidthIfNoBlock) {
+        const { width, simpleWidth } = houseConfig;
+        this.states.houseDefinition.width = simple ? simpleWidth : width;
+      }
     }
   }
 }
