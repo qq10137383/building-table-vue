@@ -4,8 +4,6 @@ import BaseBuilder from "./base-builder";
  * Table布局楼盘表逻辑幢构建器
  */
 export default class TableBuilder extends BaseBuilder {
-    spanData = []  // 跨楼层数据
-
     // 构建房屋(楼层倒序排列)
     buildHouses(layerInfo, unitInfo) {
         const houses = this.data.houses || []
@@ -20,43 +18,30 @@ export default class TableBuilder extends BaseBuilder {
                 return unit
             })
         })
-        // 跨层数据
-        this.spanData = unitList.map(() => {
-            return {
-                indexes: new Set(),  // 跨层楼层索引
-                layers: {}, // 跨层原始层房屋
-                grids: []  // 跨层行列信息
-            }
-        })
         // 2、填充房屋
-        for (let house of houses) {
+        for (const house of houses) {
             const { unitName, minAtLayer, layerCount, columnCount } = house
-            // 跨层的房屋需要将起始楼层上移(layerCount)，因为表格colspan是从上往下的，楼层却是从下往上
-            const layerIndex = house._layerIndex = layerMap[minAtLayer].index - layerCount + 1
-            const unitIndex = house._unitIndex = unitMap[unitName].index
             // 填充房屋到指定楼层、单元位置
+            const layerIndex = house._layerIndex = layerMap[minAtLayer].index
+            const unitIndex = house._unitIndex = unitMap[unitName].index
             houseList[layerIndex][unitIndex].push(house)
             // 如果跨层需要将跨域每一层的房屋填充数量加跨层房屋的columnCount
             this.walkHouseLayer(house, (layer) => {
                 const index = layerMap[layer].index
                 houseList[index][unitIndex]._houseCount += columnCount
             })
-            // 构造跨层数据
+            // 更新单元跨层区域信息 
             if (layerCount > 1) {
-                const unitSpan = this.spanData[house._unitIndex]
-                unitSpan.indexes.add(layerIndex)
-                unitSpan.layers[minAtLayer] = unitSpan.layers[minAtLayer] || []
+                const startLayer = layerIndex - layerCount + 1
+                this.updateSpanBlock(unitMap[unitName].spanBlocks, startLayer, layerIndex)
             }
         }
-        // 3、单元填充平衡
-        for (let layer of houseList) {
+        // 3、单元排序
+        this.orderNormalLayers(unitList, houseList)
+        this.orderSpanLayers(unitList, houseList)
+        // 4、单元填充平衡
+        for (const layer of houseList) {
             layer.forEach((unit, unitIndex) => {
-                // 填充跨层数据
-                unit.forEach(house => {
-                    const { minAtLayer, _unitIndex } = house
-                    const layerHouses = this.spanData[_unitIndex].layers[minAtLayer]
-                    layerHouses && layerHouses.push(house)
-                })
                 // 计算需要填充的空白房屋(null)的数量，并填充
                 const remain = unitList[unitIndex].columnCount - unit._houseCount
                 if (remain > 0) {
@@ -65,61 +50,89 @@ export default class TableBuilder extends BaseBuilder {
                 delete unit._houseCount
             })
         }
-        // 4、单元排序
-        this.spanData.forEach((unitSpan) => {
-            Object.values(unitSpan.layers).forEach(houses => {
-                // 跨层原始层房屋排序
-                houses.sort((m, n) => this.compareHouse(m, n))
-            })
-        })
-        houseList.forEach((layer, layerIndex) => {
-            layer.forEach((unit, unitIndex) => {
-                if (this.spanData[unitIndex].indexes.has(layerIndex)) {
-                    this.sortSpanHouse(unit)
-                } else {
-                    unit.sort((m, n) => this.compareHouse(m, n))
-                }
-                unit.forEach((house, index) => house && (house._columnIndex = index));
-            })
-        })
         return houseList
     }
 
-    // 跨行房屋排序
-    sortSpanHouse(unit) {
-        const spanHouses = new Array(unit.length).fill(undefined)
-        // 1、排列跨层房屋位置，与在原始层位置保持一致
-        unit.forEach(house => {
-            if (house && house.layerCount > 1) {
-                const layerIndex = house._layerIndex
-                const unitSpan = this.spanData[house._unitIndex]
-                // 层位置 = 初始位置 - 其他房屋跨行导致的偏移量
-                const initialIndex = unitSpan.layers[house.minAtLayer].indexOf(house)
-                const spanGrids = unitSpan.grids.filter(m => {
-                    return m.rowStart < layerIndex && m.rowEnd >= layerIndex && m.column < initialIndex
-                });
-                const spanIndex = initialIndex - spanGrids.length
-                spanHouses[spanIndex] = house
-                // 记录到跨层行列信息
-                unitSpan.grids.push({
-                    rowStart: layerIndex,
-                    rowEnd: layerIndex + house.layerCount - 1,
-                    column: spanIndex,
-                })
-            }
-        })
-        // 2、排列非跨层房屋位置，排除跨层房屋后按顺序排放
-        const normalHouses = unit
-            .filter(m => !m || m.layerCount == 1)
-            .sort((m, n) => this.compareHouse(m, n))
-        let normalIndex = 0
-        spanHouses.forEach((house, index) => {
-            if (house === undefined) {
-                unit[index] = normalHouses[normalIndex]
-                normalIndex++
+    // 更新单元跨层区域信息
+    updateSpanBlock(spanBlocks, startLayer, endLayer) {
+        let hasIntersect = false
+        // 如果多个跨层区域存在交叉，合并多个跨层区域
+        for (const item of spanBlocks) {
+            if (item.startLayer > endLayer || item.endLayer < startLayer) {
+                continue
             } else {
-                unit[index] = spanHouses[index]
+                item.startLayer = Math.min(item.startLayer, startLayer)  // 跨层开始
+                item.endLayer = Math.max(item.endLayer, endLayer)  // 跨层结束
+                hasIntersect = true
+                break
             }
-        })
+        }
+        // 没有交叉区域就创建新的跨层区域
+        if (!hasIntersect) {
+            spanBlocks.push({ startLayer, endLayer })
+        }
     }
-} 
+    // 普通层排序
+    orderNormalLayers(unitList, houseList) {
+        for (let i = 0; i < unitList.length; i++) {
+            const spanBlocks = unitList[i].spanBlocks
+            for (let j = houseList.length - 1; j >= 0; j--) {
+                // 排除跨层的区域
+                const block = spanBlocks.find(m => j >= m.startLayer && j <= m.endLayer)
+                if (block) continue
+                // 房屋排序
+                const layer = houseList[j][i]
+                layer.sort((m, n) => this.compareHouse(m, n))
+            }
+        }
+    }
+    // 跨层排序
+    orderSpanLayers(unitList, houseList) {
+        const PLACEHOLD_FLAG = '-' // 跨层占位符
+        for (let i = 0; i < unitList.length; i++) {
+            const { spanBlocks, columnCount } = unitList[i]
+            for (let j = 0; j < spanBlocks.length; j++) {
+                const { startLayer, endLayer } = spanBlocks[j]
+                // 生成跨层临时表
+                const spanLayers = Array.from(
+                    { length: endLayer - startLayer + 1 },
+                    () => new Array(columnCount).fill(null)
+                )
+                // 放置跨层房屋到临时表
+                for (let k = endLayer; k >= startLayer; k--) {
+                    const row = k - startLayer
+                    const layer = houseList[k][i]
+                    // 放置前先排序房屋
+                    layer.sort((m, n) => this.compareHouse(m, n))
+                    layer.forEach((house, index) => {
+                        // 计算可放置位置，如果当前位置被占用，往后移动
+                        let col = index
+                        while (spanLayers[row][col]) {
+                            col++
+                        }
+                        if (house.layerCount > 1) {
+                            // 跨层房屋需要移位到结束层并生成起始到结束其它层的占位
+                            let p = 0
+                            while (p < house.layerCount - 1) {
+                                spanLayers[row - p][col] = PLACEHOLD_FLAG  // 生成其它层占位符
+                                p++;
+                            }
+                            spanLayers[row - p][col] = house  // 房屋移位到结束层
+                            house._layerIndex = k - p
+                        } else {
+                            spanLayers[row][col] = house  // 非跨层顺序放置
+                        }
+                    })
+                }
+                // 从临时表移除占位还原到原始对应层
+                for (let k = endLayer; k >= startLayer; k--) {
+                    const row = k - startLayer
+                    const layer = spanLayers[row].filter(n => !n || n != PLACEHOLD_FLAG) // 去掉占位房屋
+                    layer._houseCount = spanLayers[row].length  // 标记已填充平衡
+                    houseList[k][i] = layer
+                }
+            }
+        }
+    }
+}
+

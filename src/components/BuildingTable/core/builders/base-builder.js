@@ -106,7 +106,7 @@ export default class BaseBuilder {
             if (!unit) {
                 // 单元房屋计数器，用来记录单元内每一层的房屋数量
                 const _counter = new Array(layerList.length).fill(0)
-                unit = unitMap[unitName] = { unitName, unitOrder, _counter }
+                unit = unitMap[unitName] = { unitName, unitOrder, _counter, spanBlocks: [] }
             }
             // 如果跨层需要将跨域每一层的房屋数量加跨层房屋的columnCount
             this.walkHouseLayer(house, (layer) => {
