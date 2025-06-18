@@ -1,12 +1,14 @@
 <template>
   <div class="building-tag-wrap sidebar-content__item">
-    <h4 class="sidebar-content__title">房屋标签</h4>
+    <h4 class="sidebar-content__title">
+      房屋标签
+    </h4>
     <div class="sidebar-content__visual building-tag__content">
       <el-checkbox-group v-model="checkedTags">
         <div
-          class="sidebar-item__group"
           v-for="group in Object.keys(tagGroups)"
           :key="group"
+          class="sidebar-item__group"
         >
           <el-checkbox
             v-for="(tag, index) in tagGroups[group]"

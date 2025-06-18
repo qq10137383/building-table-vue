@@ -1,6 +1,9 @@
 <template>
   <div class="building-tool display-tool-wrap">
-    <el-radio-group v-model="displayMode" size="small">
+    <el-radio-group
+      v-model="displayMode"
+      size="small"
+    >
       <el-radio-button
         v-for="item in modes"
         :key="item.code"

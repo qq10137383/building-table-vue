@@ -15,7 +15,7 @@ export default {
     SwitchLogicTool,
     SelectTool,
     LocateTool,
-    DisplayTool
+    DisplayTool,
   },
   props: {
     // 是否显示标题
@@ -33,19 +33,17 @@ export default {
     // 渲染父元素插槽
     const root = getBuildingTable(this);
     const { headerLeft, headerRight } = root.$slots;
-    const { buildName, buildAddress } = this.store.states;
+    const { buildName } = this.store.states;
 
     return (
       <div class="building-header-wrap">
-        <div class="building-header__left">
-          {headerLeft}
-        </div>
+        <div class="building-header__left">{headerLeft}</div>
         {this.showTitle && (
           <div class="building-header__center">
             <div class="building-title__primary">{buildName}</div>
-            <div class="building-title__second" title={buildAddress}>
-              ({ buildAddress })
-            </div>
+            {/* <div class="building-title__second" title={buildAddress}>
+              ({buildAddress})
+            </div> */}
           </div>
         )}
         <div class="building-header__right">

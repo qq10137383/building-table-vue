@@ -1,6 +1,6 @@
 <script>
-import { deepClone } from '../utils'
-import houseConfig from "../config/house-config"
+import { deepClone } from "../utils";
+import houseConfig from "../config/house-config";
 
 const props = {
   // 房屋单元格宽度，默认：220px
@@ -28,51 +28,51 @@ const props = {
   // 是否显示单元格提示信息，默认：false
   showTitle: Boolean,
   // 没有标签时是否调整单元格宽度为simpleWidth，默认：true
-  adjustWidthIfNoBlock: Boolean
-}
+  adjustWidthIfNoBlock: Boolean,
+};
 
 /**
  * 房屋单元格定义组件
  */
 export default {
-  name: 'HouseDefinition',
+  name: "HouseDefinition",
   props,
-  inject: ['store'],
+  inject: ["store"],
   mounted() {
-    this.createHouseDefinition()
+    this.createHouseDefinition();
   },
   methods: {
     // 创建房屋配置定义
     createHouseDefinition() {
-      const definition = deepClone(this.$options.propsData)
+      const definition = deepClone(this.$options.propsData);
       // 精简模式
       if (definition.simple) {
-        definition.className = 'simple-cell'
-        definition.showBlock = false
-        definition.width = houseConfig.simpleWidth
+        definition.className = "simple-cell";
+        definition.showBlock = false;
+        definition.width = houseConfig.simpleWidth;
       }
       // 定义render函数，如果有自定义模板使用自定义模块，否则使用默认模板
       if (this.$scopedSlots.default) {
         definition.render = (h, context) => {
-          return this.$scopedSlots.default(context)
-        }
+          return this.$scopedSlots.default(context);
+        };
       }
-      this.store.commit('setHouseDefinition', definition)
-      this.createDefinitionWatchers()
+      this.store.commit("setHouseDefinition", definition);
+      this.createDefinitionWatchers();
     },
     // 监听房屋配置信息改变并同步到store
     createDefinitionWatchers() {
       Object.keys(props).forEach((key) => {
         this.$watch(key, () => {
-          this.store.commit('setHouseDefinition', {
-            [key]: this[key]
-          })
-        })
-      })
-    }
+          this.store.commit("setHouseDefinition", {
+            [key]: this[key],
+          });
+        });
+      });
+    },
   },
   render(h) {
-    return h('')
-  }
-}
+    return h("");
+  },
+};
 </script>

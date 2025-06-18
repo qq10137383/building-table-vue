@@ -9,8 +9,8 @@
     >
       <el-select
         v-if="unitInfos.length > 1"
-        v-model="locateParams.unitName"
         slot="prepend"
+        v-model="locateParams.unitName"
         placeholder="单元"
       >
         <el-option
@@ -18,14 +18,14 @@
           :key="unit.unitName"
           :label="unit.unitName"
           :value="unit.unitName"
-        ></el-option>
+        />
       </el-select>
       <i
         slot="suffix"
         class="el-input__icon el-icon-aim"
         title="定位房屋"
         @click="locateHouse"
-      ></i>
+      />
     </el-input>
   </div>
 </template>

@@ -3,9 +3,18 @@
     :class="['building-table-wrap', className, { 'no-data': !logicBuild.id }]"
     :style="wrapStyle"
   >
-    <div v-if="logicBuild.id" class="building-table__visual">
-      <div class="building-table__header" v-if="showHeader">
-        <building-header :show-title="showTitle" :tools="tools" />
+    <div
+      v-if="logicBuild.id"
+      class="building-table__visual"
+    >
+      <div
+        v-if="showHeader"
+        class="building-table__header"
+      >
+        <building-header
+          :show-title="showTitle"
+          :tools="tools"
+        />
       </div>
       <div class="building-table__content">
         <div class="building-table__content-left">
@@ -27,14 +36,28 @@
     >
       {{ tipText }}
     </div>
-    <div class="building-table__footer" v-if="showFooter">
+    <div
+      v-if="showFooter"
+      class="building-table__footer"
+    >
       <building-statistic
         v-if="statisticData"
+        v-loading="statisticLoading"
         :statistic-data="statisticData"
         :max-column="statisticMaxColumn"
+        :statistic-float="statisticFloat"
+        @collapse-change="resize"
       />
       <slot name="footer" />
     </div>
+    <House-tooltip :delay-time="tooltipDelayTime">
+      <template v-slot="house">
+        <slot
+          name="tooltip"
+          v-bind="house"
+        />
+      </template>
+    </house-tooltip>
     <slot />
   </div>
 </template>
@@ -45,6 +68,7 @@ import BuildingHeader from "./BuildingHeader";
 import BuildingRender from "./renders";
 import BuildingSidebar from "./BuildingSidebar";
 import BuildingStatistic from "./BuildingStatistic";
+import HouseTooltip from './HouseTooltip'
 
 /**
  * 楼盘表控件
@@ -57,6 +81,7 @@ export default {
     BuildingRender,
     BuildingSidebar,
     BuildingStatistic,
+    HouseTooltip
   },
   props: {
     // 楼盘表自定义样式类名
@@ -67,7 +92,7 @@ export default {
     // 楼盘表自定义样式
     tableStyle: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
     // 楼盘表高度，可以是数字、百分比(%,vh)、计算高度(calc)、'auto'等
     height: {
@@ -157,6 +182,22 @@ export default {
       type: Number,
       default: 6,
     },
+    // 统计加载中
+    statisticLoading: {
+      type: Boolean,
+      default: false
+    },
+    // 统计排列方向
+    statisticFloat: {
+      type: String,
+      validator: (val) => ['left', 'right'].includes(val),
+      default: 'left'
+    },
+    // 延时显示tooltip时间(毫秒)
+    tooltipDelayTime: {
+      type: Number,
+      default: 1000
+    },
     // 提示信息
     tipText: {
       type: String,
@@ -193,6 +234,10 @@ export default {
     },
     displayMode: "setDisplayMode",
     renderMode: "setRenderMode",
+    async statisticData() {
+      await this.$nextTick()
+      this.resize()
+    }
   },
   mounted() {
     this.observeResize();
@@ -275,7 +320,7 @@ export default {
         parseInt(rs.paddingTop || 0) -
         parseInt(rs.paddingBottom || 0) -
         parseInt(fts.marginTop || 0) -
-        ft.clientHeight;
+        (ft.clientHeight ? ft.clientHeight + 6 : 0)
       visualHeight = Math.max(visualHeight, 0);
       this.store.commit("setLayout", { height: visualHeight });
     },

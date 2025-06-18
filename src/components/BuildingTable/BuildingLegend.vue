@@ -1,11 +1,13 @@
 <template>
   <div class="building-legend-wrap sidebar-content__item">
-    <h4 class="sidebar-content__title">房屋状态</h4>
+    <h4 class="sidebar-content__title">
+      房屋状态
+    </h4>
     <div class="sidebar-content__visual building-legend__content">
       <div
-        class="sidebar-item__group"
         v-for="group in Object.keys(legendGroups)"
         :key="group"
+        class="sidebar-item__group"
       >
         <div
           v-for="(legend, index) in legendGroups[group]"
@@ -13,7 +15,10 @@
           class="legend-item"
           :title="getName(legend)"
         >
-          <legend-symbol :item="legend" mode="legend" />
+          <legend-symbol
+            :item="legend"
+            mode="legend"
+          />
           <span class="legend-item__text"> {{ getName(legend) }}</span>
           <span class="legend-item__count">({{ legend.count }})</span>
         </div>

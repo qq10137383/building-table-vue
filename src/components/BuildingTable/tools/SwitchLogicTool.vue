@@ -1,12 +1,19 @@
 <template>
-  <div class="building-tool switch-logic-tool-wrap" v-if="showLogic">
-    <el-radio-group v-model="logicId" size="small">
+  <div
+    v-if="showLogic"
+    class="building-tool switch-logic-tool-wrap"
+  >
+    <el-radio-group
+      v-model="logicId"
+      size="small"
+    >
       <el-radio-button
         v-for="logic in logicInfos"
         :key="logic.id"
         :label="logic.id"
-        >{{ logic.name }}</el-radio-button
       >
+        {{ logic.name }}
+      </el-radio-button>
     </el-radio-group>
   </div>
 </template>

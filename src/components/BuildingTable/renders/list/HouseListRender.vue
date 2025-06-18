@@ -1,15 +1,18 @@
 <template>
-  <div class="house-list-wrap" :style="{ height: tableHeight + 'px' }">
+  <div
+    class="house-list-wrap"
+    :style="{ height: tableHeight + 'px' }"
+  >
     <template v-if="!emptyText">
       <div class="house-list__table">
         <el-table
           ref="table"
-          height="100%"
           v-loading="loading"
+          height="100%"
           :data="pageHouses"
           border
-          @selection-change="handleSelectionChange"
           :row-class-name="tableRowClassName"
+          @selection-change="handleSelectionChange"
         >
           <el-table-column
             v-if="useMode == 'multiple'"
@@ -25,9 +28,9 @@
           >
             <template v-slot="scope">
               <el-radio
+                v-model="checkedId"
                 class="single-select"
                 :disabled="!scope.row.isEnabled"
-                v-model="checkedId"
                 :value="scope.row.houseId"
               />
             </template>
@@ -77,7 +80,12 @@
         />
       </div>
     </template>
-    <div v-else class="building-table__empty">{{ emptyText }}</div>
+    <div
+      v-else
+      class="building-table__empty"
+    >
+      {{ emptyText }}
+    </div>
   </div>
 </template>
 

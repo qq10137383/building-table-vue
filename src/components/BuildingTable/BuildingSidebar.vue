@@ -6,7 +6,10 @@
       { 'sidebar-collapsed': sidebarCollapsed },
     ]"
   >
-    <div class="building-sidebar__content" v-if="activeTab">
+    <div
+      v-if="activeTab"
+      class="building-sidebar__content"
+    >
       <transition name="sidebar-fade">
         <component :is="activeTab.name" />
       </transition>

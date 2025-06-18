@@ -1,8 +1,14 @@
 <template>
-  <div class="building-tool select-tool-wrap" v-if="useMode === 'multiple'">
-    <el-checkbox v-model="selectAll" @change="handleChange"
-      >全选/反选</el-checkbox
+  <div
+    v-if="useMode === 'multiple'"
+    class="building-tool select-tool-wrap"
+  >
+    <el-checkbox
+      v-model="selectAll"
+      @change="handleChange"
     >
+      全选/反选
+    </el-checkbox>
   </div>
 </template>
 

@@ -27,13 +27,18 @@ const houseConfig = {
   simple: false,
   // 精简模式下单元格宽度
   simpleWidth: 120,
-  // 是否显示单元格提示信息
-  showTitle: false,
-  // 
+  // 是否显示单元格标题提示信息
+  showTitle: true,
+  // 是否显示房屋详情(blocks)提示新
+  showBlockTitle: false,
+  // 没有标签时是否调整单元格宽度为simpleWidth
   adjustWidthIfNoBlock: true,
   // 房屋单元格默认渲染函数
   render: function (h, { definition, houseInfo, store }) {
-    const { className, houseStyle, showBlock, parseBlockValue, includeFields, excludeFields, showSymbol, symbolColumn, simple, showTitle } = definition
+    const {
+      className, houseStyle, showBlock, parseBlockValue, includeFields, excludeFields,
+      showSymbol, symbolColumn, simple, showTitle, showBlockTitle
+    } = definition
     const { houseNo, houseName, blocks, symbols, customClasses = [], customStyles = {} } = houseInfo
     const root = getBuildingTable(this)
 
@@ -54,7 +59,7 @@ const houseConfig = {
           // block值转换
           const value = hasTag ? parseBlockValue(houseInfo, blockInfo) : blockInfo.value;
           const text = `${name}：${value}`
-          blockVNodes.push(<p class='house-cell__block-item' title={showTitle ? text : ''}>{text}</p>)
+          blockVNodes.push(<p class='house-cell__block-item' title={showBlockTitle ? text : ''}>{text}</p>)
         }
       })
       return blockVNodes
@@ -82,6 +87,11 @@ const houseConfig = {
       root && root.$emit('house-title-click', { house: houseInfo, event })
     }
 
+   // mouseenter、mouseleave不能冒泡，只能写在元素上，td不能捕获
+    const raiseHouseEvent = (eventName, event) => {
+      root && root.$emit(eventName, { house: houseInfo, event })
+    }
+
     // 自定义样式
     const mergeStyles = Object.assign({}, houseStyle, customStyles)
     // 获取背景色符号
@@ -92,9 +102,12 @@ const houseConfig = {
     }
 
     return (
-      <div class={['house-cell-wrap', className, ...customClasses]} style={mergeStyles}>
+      <div class={['house-cell-wrap', className, ...customClasses]} style={mergeStyles} 
+        onMouseenter={e => raiseHouseEvent('house-enter', e)}
+        onMouseleave={ e => raiseHouseEvent('house-leave', e)}
+      >
         <div class='house-cell__block'>
-          <h4 class='house-cell__block-title' on-click={clickTitle} title={houseName}>{houseNo}</h4>
+          <h4 class='house-cell__block-title' on-click={clickTitle} title={showTitle ? houseName : ''}>{houseNo}</h4>
           {renderBlock()}
         </div>
         <div class='house-cell__symbol'>

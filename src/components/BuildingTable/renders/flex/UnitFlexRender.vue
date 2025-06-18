@@ -65,10 +65,7 @@ export default {
           })}
         </div>
         {this.layout.hasGutter && (
-          <div
-            class="building-fd__gutter"
-            style={{ width: scrollbarWidth }}
-          >
+          <div class="building-fd__gutter" style={{ width: scrollbarWidth }}>
             <div class="gutter_cell-wrap"></div>
           </div>
         )}

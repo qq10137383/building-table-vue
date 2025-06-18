@@ -1,19 +1,30 @@
 <template>
-  <div class="building-statistic-wrap">
+  <div :class="['building-statistic-wrap', `float-${statisticFloat}`, { 'is-collapsed': collapsed }]">
     <div
-      :class="[
-        'building-statistic__column',
-        columnIndex % 2 == 0 ? 'name-column' : 'value-column',
-      ]"
-      v-for="(column, columnIndex) in columnData"
-      :key="columnIndex"
+      class="building-statistic__btn"
+      @click="setCollapsed"
     >
+      <el-icon
+        class="building-statistic__icon el-icon-d-arrow-right"
+        title="折叠/收起统计信息"
+      />
+    </div>
+    <div class="building-statistic__content">
       <div
-        class="building-statistic__row"
-        v-for="(row, rowIndex) in column"
-        :key="rowIndex"
+        v-for="(column, columnIndex) in columnData"
+        :key="columnIndex"
+        :class="[
+          'building-statistic__column',
+          columnIndex % 2 == 0 ? 'name-column' : 'value-column',
+        ]"
       >
-        {{ row }}
+        <div
+          v-for="(row, rowIndex) in column"
+          :key="rowIndex"
+          class="building-statistic__row"
+        >
+          {{ row }}
+        </div>
       </div>
     </div>
   </div>
@@ -36,6 +47,17 @@ export default {
       type: Number,
       default: 6,
     },
+    // 统计排列方向
+    statisticFloat: {
+      type: String,
+      validator: (val) => ['left', 'right'].includes(val),
+      default: 'left'
+    }
+  },
+  data() {
+    return {
+      collapsed: false,
+    }
   },
   computed: {
     // 视图数据(为了使列宽自适应，行渲染转为列渲染)
@@ -58,5 +80,12 @@ export default {
       return statColumns;
     },
   },
+  methods: {
+    async setCollapsed() {
+      this.collapsed = !this.collapsed
+      await this.$nextTick()
+      this.$emit('collapse-change', this.collapsed)
+    }
+  }
 };
 </script>
