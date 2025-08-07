@@ -40,4 +40,13 @@
     background-color: $background-color;
     height: 100%;
   }
+
+  &.no-data {
+    .building-table__visual {
+      display: none;
+    }
+    .building-table__footer {
+      display: none;
+    }
+  }
 }
