@@ -33,13 +33,15 @@ export default class TableBuilder extends BaseBuilder {
             // 更新单元跨层区域信息 
             if (layerCount > 1) {
                 const startLayer = layerIndex - layerCount + 1
-                this.updateSpanBlock(unitMap[unitName].spanBlocks, startLayer, layerIndex)
+                unitMap[unitName].spanBlocks.push({ startLayer, endLayer: layerIndex })
             }
         }
-        // 3、单元排序
+        // 3、合并单元跨层区域
+        this.mergeSpanBlocks(unitList)
+        // 4、单元排序
         this.orderNormalLayers(unitList, houseList)
         this.orderSpanLayers(unitList, houseList)
-        // 4、单元填充平衡
+        // 5、单元填充平衡
         for (const layer of houseList) {
             layer.forEach((unit, unitIndex) => {
                 // 计算需要填充的空白房屋(null)的数量，并填充
@@ -52,25 +54,37 @@ export default class TableBuilder extends BaseBuilder {
         }
         return houseList
     }
+    // 合并单元跨层区域
+    mergeSpanBlocks(unitList) {
+        unitList.forEach(unitInfo => {
+            const regions = unitInfo.spanBlocks
+            // 区域去重
+            const uniqueRegions = [...new Map(
+                regions.map(region => [`${region.startLayer}-${region.endLayer}`, region])
+            ).values()];
 
-    // 更新单元跨层区域信息
-    updateSpanBlock(spanBlocks, startLayer, endLayer) {
-        let hasIntersect = false
-        // 如果多个跨层区域存在交叉，合并多个跨层区域
-        for (const item of spanBlocks) {
-            if (item.startLayer > endLayer || item.endLayer < startLayer) {
-                continue
-            } else {
-                item.startLayer = Math.min(item.startLayer, startLayer)  // 跨层开始
-                item.endLayer = Math.max(item.endLayer, endLayer)  // 跨层结束
-                hasIntersect = true
-                break
+            // 区域排序
+            const sortedRegions = uniqueRegions.sort((m, n) => m.startLayer - n.startLayer);
+
+            // 合并区域
+            const merged = [];
+            let currentRegion = { ...sortedRegions[0] };
+            for (let i = 1; i < sortedRegions.length; i++) {
+                const nextRegion = sortedRegions[i];
+                // 检查当前区域与下一个区域是否重叠（包括相邻的情况）
+                if (currentRegion.endLayer >= nextRegion.startLayer) {
+                    // 重叠或相邻，合并区域
+                    currentRegion.endLayer = Math.max(currentRegion.endLayer, nextRegion.endLayer);
+                } else {
+                    // 不重叠，创建新区域
+                    merged.push({ ...currentRegion });
+                    currentRegion = { ...nextRegion };
+                }
             }
-        }
-        // 没有交叉区域就创建新的跨层区域
-        if (!hasIntersect) {
-            spanBlocks.push({ startLayer, endLayer })
-        }
+            // 添加最后一个区域
+            merged.push({ ...currentRegion });
+            unitInfo.spanBlocks = merged;
+        })
     }
     // 普通层排序
     orderNormalLayers(unitList, houseList) {
